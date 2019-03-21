@@ -48,22 +48,16 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                      <template v-for="product in [1, 2, 3, 4, 5, 6]">
                                         <tr>
-                                            <td class="product-thumbnail"><a href="#"><img src="images/product/4.png" alt="product img" /></a></td>
-                                            <td class="product-name"><a href="#">Vestibulum suscipit</a></td>
-                                            <td class="product-price"><span class="amount">£165.00</span></td>
-                                            <td class="product-quantity"><input type="number" value="1" /></td>
-                                            <td class="product-subtotal">£165.00</td>
-                                            <td class="product-remove"><a href="#">X</a></td>
+                                          <td class="product-thumbnail"><a href="#"><img src="images/product/4.png" alt="product img" /></a></td>
+                                          <td class="product-name"><a href="#">Vestibulum suscipit</a></td>
+                                          <td class="product-price"><span class="amount">£165.00</span></td>
+                                          <td class="product-quantity"><input type="number" value="1" /></td>
+                                          <td class="product-subtotal">£165.00</td>
+                                          <td class="product-remove"><a href="#">X</a></td>
                                         </tr>
-                                        <tr>
-                                            <td class="product-thumbnail"><a href="#"><img src="images/product/3.png" alt="product img" /></a></td>
-                                            <td class="product-name"><a href="#">Vestibulum dictum magna</a></td>
-                                            <td class="product-price"><span class="amount">£50.00</span></td>
-                                            <td class="product-quantity"><input type="number" value="1" /></td>
-                                            <td class="product-subtotal">£50.00</td>
-                                            <td class="product-remove"><a href="#">X</a></td>
-                                        </tr>
+                                      </template>
                                     </tbody>
                                 </table>
                             </div>

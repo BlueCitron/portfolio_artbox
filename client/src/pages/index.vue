@@ -13,7 +13,7 @@
         <div class="slider__container slider--one">
             <div class="slider__activation__wrap owl-carousel owl-theme">
                 <!-- Start Single Slide -->
-                <div class="slide slider__full--screen" style="background: rgba(0, 0, 0, 0) url(images/slider/bg/1.png) no-repeat scroll center center / cover ;">
+                <div class="slide slider__full--screen" style="background: rgba(0, 0, 0, 0) url(/images/slider/bg/kakao_friends.jpg) no-repeat scroll center center / cover ;">
                     <div class="container">
                         <div class="row">
                             <div class="col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-4 col-sm-12 col-xs-12">
@@ -47,7 +47,7 @@
             </div>
         </div>
         <!-- Start Slider Area -->
-        
+
         <!-- Start Our Product Area -->
         <section class="htc__product__area ptb--130 bg__white">
             <div class="container">
