@@ -13,32 +13,12 @@
         <div class="slider__container slider--one">
             <div class="slider__activation__wrap owl-carousel owl-theme">
                 <!-- Start Single Slide -->
-                <div class="slide slider__full--screen" style="background: rgba(0, 0, 0, 0) url(images/slider/bg/1.png) no-repeat scroll center center / cover ;">
+                <div
+                class="slide slider__full--screen"
+                :style="`background: rgba(0, 0, 0, 0) url(/images/slider/bg/category_${this.$route.params.id}.jpg) no-repeat scroll center center;`">
                     <div class="container">
                         <div class="row">
                             <div class="col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-4 col-sm-12 col-xs-12">
-                                <div class="slider__inner">
-                                    <h1>New Product <span class="text--theme">Collection</span></h1>
-                                    <div class="slider__btn">
-                                        <a class="htc__btn" href="cart.html">shop now</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Single Slide -->
-                <!-- Start Single Slide -->
-                <div class="slide slider__full--screen" style="background: rgba(0, 0, 0, 0) url(images/slider/bg/2.png) no-repeat scroll center center / cover ;">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-8 col-lg-8 col-sm-12 col-xs-12">
-                                <div class="slider__inner">
-                                    <h1>New Product <span class="text--theme">Collection</span></h1>
-                                    <div class="slider__btn">
-                                        <a class="htc__btn" href="cart.html">shop now</a>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -47,6 +27,7 @@
             </div>
         </div>
         <!-- Start Slider Area -->
+
         <!-- Start Our Product Area -->
         <section class="htc__product__area ptb--130 bg__white">
             <div class="container">
@@ -56,11 +37,9 @@
                         <div class="col-md-12">
                             <div class="product__menu">
                                 <button class="is-checked">All</button>
-                                <button>쿠션인형</button>
-                                <button>미니인형</button>
-                                <button>피규어</button>
-                                <button>FUN / TOY</button>
-                                <button>DIY 취미</button>
+                                <template v-for="division in this.$store.getters.GET_CURRENT_DIVISIONS">
+                                  <button>{{ division.name }}</button>
+                                </template>
                             </div>
                         </div>
                     </div>
@@ -68,12 +47,12 @@
                     <div class="row product__list">
                         <!-- Start Single Product -->
                         <template>
-                        <div class="col-md-3 single__pro col-lg-3 col-md-4 cat--1 col-sm-12" v-for="item in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]" v-key="item">
+                        <div class="col-md-3 single__pro col-lg-3 col-md-4 cat--1 col-sm-12" v-for="item in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]" :key="item">
                             <div class="product foo">
                                 <div class="product__inner">
                                     <div class="pro__thumb">
                                         <a href="#">
-                                            <img src="images/product/1.png" alt="product images">
+                                            <img src="/images/product/1.png" alt="product images">
                                         </a>
                                     </div>
                                     <div class="product__hover__info">
@@ -127,14 +106,31 @@ export default {
     Footer,
     QuickView,
   },
-
+  data () {
+    return {
+      check: false,
+    }
+  },
   created () {
-
+    console.log('Products Created.')
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateX(10px);
+  opacity: 0;
+}
+.product__menu button {
+  padding: 0 10px;
+}
 </style>

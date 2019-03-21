@@ -30,7 +30,7 @@
               <div class="off__contact">
                   <div class="logo">
                       <a href="index.html">
-                          <img src="images/logo/uniqlo.png" alt="logo">
+                          <img src="/images/logo/artbox.png" alt="logo">
                       </a>
                   </div>
                   <p>Lorem ipsum dolor sit amet consectetu adipisicing elit sed do eiusmod tempor incididunt ut labore.</p>
@@ -88,43 +88,30 @@
                   <a href="#"><i class="zmdi zmdi-close"></i></a>
               </div>
               <div class="shp__cart__wrap">
+                <template v-for="product in [1, 2, 3, 4]">
                   <div class="shp__single__product">
-                      <div class="shp__pro__thumb">
-                          <a href="#">
-                              <img src="images/product/sm-img/1.jpg" alt="product images">
-                          </a>
-                      </div>
-                      <div class="shp__pro__details">
-                          <h2><a href="product-details.html">BO&Play Wireless Speaker</a></h2>
-                          <span class="quantity">QTY: 1</span>
-                          <span class="shp__price">$105.00</span>
-                      </div>
-                      <div class="remove__btn">
-                          <a href="#" title="Remove this item"><i class="zmdi zmdi-close"></i></a>
-                      </div>
+                    <div class="shp__pro__thumb">
+                      <a href="#">
+                        <img src="images/product/sm-img/1.jpg" alt="product images">
+                      </a>
+                    </div>
+                    <div class="shp__pro__details">
+                      <h2><a href="product-details.html">BO&Play Wireless Speaker</a></h2>
+                      <span class="quantity">QTY: 1</span>
+                      <span class="shp__price">$105.00</span>
+                    </div>
+                    <div class="remove__btn">
+                      <a href="#" title="Remove this item"><i class="zmdi zmdi-close"></i></a>
+                    </div>
                   </div>
-                  <div class="shp__single__product">
-                      <div class="shp__pro__thumb">
-                          <a href="#">
-                              <img src="images/product/sm-img/2.jpg" alt="product images">
-                          </a>
-                      </div>
-                      <div class="shp__pro__details">
-                          <h2><a href="product-details.html">Brone Candle</a></h2>
-                          <span class="quantity">QTY: 1</span>
-                          <span class="shp__price">$25.00</span>
-                      </div>
-                      <div class="remove__btn">
-                          <a href="#" title="Remove this item"><i class="zmdi zmdi-close"></i></a>
-                      </div>
-                  </div>
+                </template>
               </div>
               <ul class="shoping__total">
                   <li class="subtotal">Subtotal:</li>
                   <li class="total__price">$130.00</li>
               </ul>
               <ul class="shopping__btn">
-                  <li><a href="cart.html">View Cart</a></li>
+                  <li><a href="/cart">View Cart</a></li>
                   <li class="shp__checkout"><a href="checkout.html">Checkout</a></li>
               </ul>
           </div>

@@ -7,8 +7,8 @@
               <div class="row">
                   <div class="col-md-2 col-lg-2 col-6">
                       <div class="logo">
-                          <a href="index.html">
-                              <img src="images/logo/artbox.png" alt="logo">
+                          <a href="/">
+                              <img src="/images/logo/artbox.png" alt="logo">
                           </a>
                       </div>
                   </div>
@@ -22,34 +22,18 @@
                                     <li><a href="blog-details.html">blog details</a></li>
                                 </ul>
                               </li> -->
-                              <li v-for="category in categories"><a href="about.html">{{ category.name }}</a></li>
+                              <li v-for="category in this.$store.state.category.categories" :key="category.id">
+                                <a href="#" @click="gotoCategory(category)">{{ category.name }}</a>
+                              </li>
                           </ul>
                       </nav>
 
                       <div class="mobile-menu clearfix d-block d-lg-none">
                           <nav id="mobile_dropdown">
                               <ul>
-                                  <li><a href="index.html">Home</a></li>
-                                  <li><a href="about.html">About</a></li>
-                                  <li><a href="blog.html">blog</a>
-                                      <ul>
-                                          <li><a href="blog.html">blog</a></li>
-                                          <li><a href="blog-details.html">blog details</a></li>
-                                      </ul>
-                                  </li>
-                                  <li><a href="#">pages</a>
-                                      <ul>
-                                          <li><a href="about.html">about</a></li>
-                                          <li><a href="shop.html">shop</a></li>
-                                          <li><a href="product-details.html">product details</a></li>
-                                          <li><a href="cart.html">cart</a></li>
-                                          <li><a href="wishlist.html">wishlist</a></li>
-                                          <li><a href="checkout.html">checkout</a></li>
-                                          <li><a href="team.html">team</a></li>
-                                          <li><a href="login-register.html">login & register</a></li>
-                                      </ul>
-                                  </li>
-                                  <li><a href="contact.html">contact</a></li>
+                                <li v-for="category in this.$store.state.category.categories" :key="category.id">
+                                  <a href="#" @click="gotoCategory(category)">{{ category.name }}</a>
+                                </li>
                               </ul>
                           </nav>
                       </div>
@@ -58,7 +42,7 @@
                   <div class="col-md-2 col-lg-2 col-6">
                       <ul class="menu-extra">
                           <li class="search search__open d-none d-sm-block"><span class="ti-search"></span></li>
-                          <li><a href="login-register.html"><span class="ti-user"></span></a></li>
+                          <li><a href="/login"><span class="ti-user"></span></a></li>
                           <li class="cart__menu"><span class="ti-shopping-cart"></span></li>
                           <li class="toggle__menu d-none d-md-block"><span class="ti-menu"></span></li>
                       </ul>
@@ -76,16 +60,13 @@
 export default {
   data () {
     return {
-      categories: [
-        { name: '인형/토이' },
-        { name: '주방/욕실' },
-        { name: '문구' },
-        { name: '패션' },
-        { name: '여행' },
-        { name: '리빙/데코' },
-        { name: '디지털/가전' },
-        { name: '뷰티' },
-      ]
+
+    }
+  },
+  methods: {
+    gotoCategory (category) {
+      this.$store.commit('SET_CATEGORY', category)
+      this.$router.push({ name: 'Products', params: { id: category.id }})
     }
   }
 }

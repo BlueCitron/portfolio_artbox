@@ -47,6 +47,7 @@
             </div>
         </div>
         <!-- Start Slider Area -->
+        
         <!-- Start Our Product Area -->
         <section class="htc__product__area ptb--130 bg__white">
             <div class="container">
@@ -125,6 +126,9 @@ export default {
     Offset,
     Footer,
     QuickView,
+  },
+  created () {
+    console.log('index Created.')
   }
 }
 </script>

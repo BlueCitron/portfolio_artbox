@@ -1,6 +1,7 @@
 <template lang="html">
   <!-- Start Footer Area -->
-  <footer class="htc__foooter__area" style="background: rgba(0, 0, 0, 0) url(images/bg/1.jpg) no-repeat scroll center center / cover ;">
+  <!-- style="background: rgba(0, 0, 0, 0) url(/images/bg/1.jpg) no-repeat scroll center center / cover ;" -->
+  <footer  class="htc__foooter__area">
       <div class="container">
           <div class="row footer__container clearfix">
               <!-- Start Single Footer Widget -->
@@ -8,7 +9,7 @@
                   <div class="ft__widget">
                       <div class="ft__logo">
                           <a href="index.html">
-                              <img src="images/logo/artbox.png" alt="footer logo">
+                              <img src="/images/logo/artbox.png" alt="footer logo">
                           </a>
                       </div>
                       <div class="footer__details">
@@ -94,4 +95,7 @@ export default {
 </script>
 
 <style lang="css" scoped>
+.footer__container {
+  padding-top: 53px;
+}
 </style>
