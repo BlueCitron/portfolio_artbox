@@ -88,17 +88,17 @@
                   <a href="#"><i class="zmdi zmdi-close"></i></a>
               </div>
               <div class="shp__cart__wrap">
-                <template v-for="product in [1, 2, 3, 4]">
+                <template v-for="order in this.$store.state.cart.orders">
                   <div class="shp__single__product">
                     <div class="shp__pro__thumb">
                       <a href="#">
-                        <img src="images/product/sm-img/1.jpg" alt="product images">
+                        <img :src="order.product.thumbnails[0].url" alt="product images">
                       </a>
                     </div>
                     <div class="shp__pro__details">
-                      <h2><a href="product-details.html">BO&Play Wireless Speaker</a></h2>
-                      <span class="quantity">QTY: 1</span>
-                      <span class="shp__price">$105.00</span>
+                      <h2><a href="#">{{ order.product.name }}</a></h2>
+                      <span class="quantity">수량 : {{ order.quantity }}</span>
+                      <span class="shp__price">{{ order.product.price }} 원</span>
                     </div>
                     <div class="remove__btn">
                       <a href="#" title="Remove this item"><i class="zmdi zmdi-close"></i></a>
@@ -107,12 +107,13 @@
                 </template>
               </div>
               <ul class="shoping__total">
-                  <li class="subtotal">Subtotal:</li>
-                  <li class="total__price">$130.00</li>
+                  <li class="subtotal">총 주문금액 :</li>
+                  <li class="total__price">{{ this.$store.getters.totalFee }} 원</li>
               </ul>
               <ul class="shopping__btn">
-                  <li><a href="/cart">View Cart</a></li>
-                  <li class="shp__checkout"><a href="checkout.html">Checkout</a></li>
+                  <!-- <li><router-link :to="{ name: 'Cart' }">장바구니 보기</router-link></li> -->
+                  <li><a href="#" @click="gotoCart()">장바구니 보기</a></li>
+                  <li class="shp__checkout"><a href="checkout.html">결제하기</a></li>
               </ul>
           </div>
       </div>
@@ -123,6 +124,13 @@
 
 <script>
 export default {
+  methods: {
+    gotoCart () {
+      document.querySelector('.body__overlay').setAttribute('class', 'body__overlay')
+      document.querySelector('.shopping__cart').setAttribute('class', 'shopping__cart')
+      this.$router.push({ name: 'Cart' })
+    }
+  }
 }
 </script>
 

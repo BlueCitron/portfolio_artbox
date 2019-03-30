@@ -40,7 +40,10 @@
 /*--------------------------------
 [ End table content ]
 -----------------------------------*/
-const waitingTime = 500
+let test = 'Hello World'
+
+
+const waitingTime = 700
 
 setTimeout(function(jQuery) {
     'use strict';
@@ -142,7 +145,6 @@ $('[data-toggle="tooltip"]').tooltip({
 /*-----------------------------------
   07. ScrollReveal Js Init
 -------------------------------------- */
-
   window.sr = ScrollReveal({ duration: 800 , reset: false });
     sr.reveal('.foo');
     sr.reveal('.bar');

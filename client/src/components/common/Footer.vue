@@ -8,9 +8,9 @@
               <div class="col-md-6 col-lg-3 col-sm-6">
                   <div class="ft__widget">
                       <div class="ft__logo">
-                          <a href="index.html">
-                              <img src="/images/logo/artbox.png" alt="footer logo">
-                          </a>
+                          <router-link :to="{ name: 'Index' }">
+                            <img src="/images/logo/artbox.png" alt="footer logo">
+                          </router-link>
                       </div>
                       <div class="footer__details">
                           <p>Get 10% discount with notified about the latest news and updates.</p>

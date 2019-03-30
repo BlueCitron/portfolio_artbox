@@ -1,25 +1,42 @@
 export const state = {
-  items: [],
+  orders: [
+    // {
+    //   product: product,
+    //   quantity: 1,
+    // }
+  ],
 }
 
 export const getters = {
-
+  totalProductFee: state => state.orders.reduce((sum, order) => sum += (order.product.price * order.quantity), 0),
+  shippingFee: (state, getters) => getters.totalProductFee >= 30000 ? 0 : 2500,
+  totalFee: (state, getters) => getters.totalProductFee ? getters.totalProductFee + getters.shippingFee : 0
 }
 
 export const actions = {
-  ADD_CART ({ commit }, product) {
+  ADD_TO_CART ({ commit }, { product, quantity }) {
+    commit('PUSH_ORDER', { product, quantity: quantity || 1 })
+  },
+  REMOVE_TO_CART ({ commit }, { index }) {
+    commit('POP_ORDER', index)
+  },
+  BUY_NOW ({ commit, dispatch }, { product, quantity }) {
+    commit('SET_ORDERS', [])
+    dispatch('ADD_TO_CART', { product, quantity })
+  },
+  CHECKOUT ({ commit }, ) {
 
-  }
+  },
 }
 
 export const mutations = {
-  SET_ITEMS (state, data) {
-    state.items = data
+  SET_ORDERS (state, data) {
+    state.orders = data
   },
-  PUSH_ITEM (state, data) {
-    state.items.push(data)
+  PUSH_ORDER (state, data) {
+    state.orders.push(data)
   },
-  POP_ITEM (state, index) {
-    state.items.splice(index, 1)
+  POP_ORDER (state, index) {
+    state.orders.splice(index, 1)
   }
 }
