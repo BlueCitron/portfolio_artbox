@@ -3,11 +3,14 @@ import Router from 'vue-router'
 
 import store from '../store'
 
-import Index from '@/pages/index.vue'
-import Products from '@/pages/Products.vue'
-import Login from '@/pages/Login.vue'
-import Cart from '@/pages/Cart.vue'
-import ProductDetail from '@/pages/ProductDetail.vue'
+import Index            from '@/pages/index.vue'
+import Products         from '@/pages/Products.vue'
+import Login            from '@/pages/Login.vue'
+import Cart             from '@/pages/Cart.vue'
+import ProductDetail    from '@/pages/ProductDetail.vue'
+import Checkout         from '@/pages/Checkout.vue'
+import OrderSuccess     from '@/pages/OrderSuccess.vue'
+import UserInfo         from '@/pages/UserInfo.vue'
 
 
 Vue.use(Router)
@@ -46,6 +49,14 @@ const router = new Router({
       name: 'Login',
       path: '/login',
       component: Login,
+      beforeEnter (to, from, next) {
+        const { user } = store.state.user
+        if (user.id) {
+          next({ path: `/user/${user.id}` })
+        } else {
+          next()
+        }
+      }
     },
     {
       name: 'Cart',
@@ -60,6 +71,38 @@ const router = new Router({
         const { id } = to.params
         await store.dispatch('FETCH_SINGLE_PRODUCT', { productId: id})
         next()
+      }
+    },
+    {
+      name: 'Checkout',
+      path: '/checkout',
+      component: Checkout,
+      beforeEnter (to, from, next) {
+        const { orders } = store.state.cart
+        console.log('orders :', orders)
+        if (orders.length > 0) {
+          next()
+        } else {
+          next({ path: '/' })
+        }
+      }
+    },
+    {
+      name: 'OrderSuccess',
+      path: '/ordersuccess',
+      component: OrderSuccess,
+    },
+    {
+      name: 'UserInfo',
+      path: '/user/:id',
+      component: UserInfo,
+      beforeEnter (to, from, next) {
+        const { user } = store.state.user
+        if (user.id) {
+          next()
+        } else {
+          next({ path: '/login' })
+        }
       }
     },
   ],

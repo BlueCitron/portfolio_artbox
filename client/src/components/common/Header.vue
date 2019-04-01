@@ -81,4 +81,7 @@ export default {
 </script>
 
 <style lang="css" scoped>
+#header {
+  /* height: 137px; */
+}
 </style>

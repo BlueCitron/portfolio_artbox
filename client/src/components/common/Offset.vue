@@ -113,7 +113,7 @@
               <ul class="shopping__btn">
                   <!-- <li><router-link :to="{ name: 'Cart' }">장바구니 보기</router-link></li> -->
                   <li><a href="#" @click="gotoCart()">장바구니 보기</a></li>
-                  <li class="shp__checkout"><a href="checkout.html">결제하기</a></li>
+                  <li class="shp__checkout"><a href="#" @click="gotoCheckout()">결제하기</a></li>
               </ul>
           </div>
       </div>
@@ -129,6 +129,11 @@ export default {
       document.querySelector('.body__overlay').setAttribute('class', 'body__overlay')
       document.querySelector('.shopping__cart').setAttribute('class', 'shopping__cart')
       this.$router.push({ name: 'Cart' })
+    },
+    gotoCheckout () {
+      document.querySelector('.body__overlay').setAttribute('class', 'body__overlay')
+      document.querySelector('.shopping__cart').setAttribute('class', 'shopping__cart')
+      this.$router.push({ name: 'Checkout' })
     }
   }
 }

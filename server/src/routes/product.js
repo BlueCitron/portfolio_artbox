@@ -60,21 +60,6 @@ productRouter.get('/', async (req, res, next) => {
       },{
         model: Division,
         attributes: [ 'name' ],
-      },{
-        model: Detail,
-        attributes: [ 'type', 'content' ],
-      },{
-        model: Image,
-        attributes: [ 'url' ],
-      },{
-        model: Delivery,
-        attributes: [ 'content' ],
-      },{
-        model: Preview,
-        attributes: [ 'url' ],
-      },{
-        model: Information,
-        attributes: [ 'content' ],
       },]
     })
 
@@ -121,9 +106,6 @@ productRouter.get('/:id', async (req, res, next) => {
     },{
       model: Image,
       attributes: [ 'url' ],
-    },{
-      model: Delivery,
-      attributes: [ 'content' ],
     },{
       model: Preview,
       attributes: [ 'url' ],

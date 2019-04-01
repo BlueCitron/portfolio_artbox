@@ -6,8 +6,8 @@
             <div class="row">
                 <div class="col-md-6 ml-auto mr-auto">
                     <ul class="login__register__menu nav justify-contend-center" role="tablist">
-                        <li role="presentation" class="login active"><a class="active" href="#login" role="tab" data-toggle="tab">Login</a></li>
-                        <li role="presentation" class="register"><a href="#register" role="tab" data-toggle="tab">Register</a></li>
+                        <li role="presentation" class="login active"><a class="active" href="#login" role="tab" data-toggle="tab" ref="loginTab">Login</a></li>
+                        <li role="presentation" class="register"><a href="#register" role="tab" data-toggle="tab" ref="registerTab">Register</a></li>
                     </ul>
                 </div>
             </div>
@@ -119,6 +119,10 @@ export default {
       const password  = this.regPassword
       try {
         const { data } = await dispatch('REGISTER', { username, email, password })
+        this.regUsername = ''
+        this.regEmail = ''
+        this.regPassword = ''
+        this.$refs.loginTab.click()
       } catch ({ response }) {
         console.log('Error from register/Login.vue : ', message)
         this.regUsername = ''
