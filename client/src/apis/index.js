@@ -26,3 +26,7 @@ export function login ({ username, password }) {
 export function verify ({ accessToken }) {
   return axios.get(`${ BASE_URL }/auth/verify?accessToken=${ accessToken }`)
 }
+
+export function deal (dealInfo) {
+  return axios.post(`${ BASE_URL }/order`, dealInfo)
+}

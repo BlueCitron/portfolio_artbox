@@ -1,3 +1,5 @@
+import { deal } from '../apis'
+
 export const state = {
   orders: [
     // {
@@ -24,8 +26,8 @@ export const actions = {
     commit('SET_ORDERS', [])
     dispatch('ADD_TO_CART', { product, quantity })
   },
-  CHECKOUT ({ commit }, ) {
-
+  CHECKOUT ({ commit }, dealInfo) {
+    return deal(dealInfo)
   },
 }
 

@@ -39,7 +39,7 @@
                       <td class="product-thumbnail"><a href="#"><img :src="order.product.thumbnails[0].url" alt="product img" /></a></td>
                       <td class="product-name"><router-link :to="{ path: `/product/${order.product.id}` }">{{ order.product.name }}</router-link></td>
                       <td class="product-price"><span class="amount">{{ ThousandSeparator(order.product.price) }}원</span></td>
-                      <td class="product-quantity"><input type="text" v-model="order.quantity" readonly/></td>
+                      <td class="product-quantity"><input type="number" v-model="order.quantity" min="1"/></td>
                       <td class="product-subtotal">{{ ThousandSeparator(order.product.price * order.quantity) }}원</td>
                       <!-- <td class="product-remove"><a href="#" @click="removeOrder(index)">X</a></td> -->
                     </tr>
@@ -62,6 +62,8 @@
                             <div class="single-checkout-box">
                                 <input
                                 v-model="customerName"
+                                v-validate="'required|min:2|max:6'"
+                                name="customerName"
                                 class="w-100"
                                 type="text"
                                 placeholder="이름*">
@@ -69,6 +71,8 @@
                             <div class="single-checkout-box">
                                 <input
                                 v-model="customerEmail"
+                                v-validate="'required|email'"
+                                name="customerEmail"
                                 class="w-100"
                                 type="email"
                                 placeholder="이메일*">
@@ -76,20 +80,26 @@
                             <div class="single-checkout-box d-flex justify-content-between">
                                 <input
                                 v-model="customerPhone.first"
+                                v-validate="'required|numeric|min:3|max:3'"
+                                name="customerPhoneFirst"
                                 class="w-25"
-                                type="email"
+                                type="text"
                                 placeholder="휴대전화*">
                                 <span style="padding-top: 8px;">-</span>
                                 <input
                                 v-model="customerPhone.second"
+                                v-validate="'required|numeric|min:4|max:4'"
+                                name="customerPhoneSecond"
                                 class="w-25"
-                                type="email"
+                                type="text"
                                 placeholder="">
                                 <span style="padding-top: 8px;">-</span>
                                 <input
                                 v-model="customerPhone.third"
+                                v-validate="'required|numeric|min:4|max:4'"
+                                name="customerPhoneThird"
                                 class="w-25"
-                                type="email"
+                                type="text"
                                 placeholder="">
                             </div>
                         </div>
@@ -102,6 +112,8 @@
                           <div class="single-checkout-box">
                               <input
                               v-model="shippingName"
+                              v-validate="'required|min:2|max:6'"
+                              name="shippingName"
                               class="w-100"
                               type="text"
                               placeholder="받는분*">
@@ -109,36 +121,48 @@
                           <div class="single-checkout-box d-flex justify-content-between">
                               <input
                               v-model="shippingPhone.first"
+                              v-validate="'required|numeric|min:3|max:3'"
+                              name="shippingPhoneFirst"
                               class="w-25"
-                              type="email"
+                              type="text"
                               placeholder="휴대전화*">
                               <span style="padding-top: 8px;">-</span>
                               <input
                               v-model="shippingPhone.second"
+                              v-validate="'required|numeric|min:4|max:4'"
+                              name="shippingPhoneSecond"
                               class="w-25"
-                              type="email"
+                              type="text"
                               placeholder="">
                               <span style="padding-top: 8px;">-</span>
                               <input
                               v-model="shippingPhone.third"
+                              v-validate="'required|numeric|min:4|max:4'"
+                              name="shippingPhoneThird"
                               class="w-25"
-                              type="email"
+                              type="text"
                               placeholder="">
                           </div>
                           <div class="single-checkout-box d-flex justify-content-between">
                               <input
                               v-model="shippingPostCode.first"
+                              v-validate="'required|numeric|min:3|max:3'"
+                              name="shippingPostCodeFirst"
                               type="text"
                               placeholder="우편번호*">
                               <span style="padding-top: 8px;">-</span>
                               <input
                               v-model="shippingPostCode.second"
+                              v-validate="'required|numeric|min:3|max:3'"
+                              name="shippingPostCodeSecond"
                               type="text"
                               placeholder="">
                           </div>
                           <div class="single-checkout-box">
                               <input
                               v-model="shippingAddress"
+                              v-validate="'required'"
+                              name="shippingAddress"
                               class="w-100"
                               type="text"
                               placeholder="주소* ex) 경기도 이천시 송정동 현진에버빌 102동 509호 ">
@@ -165,49 +189,75 @@
                     </div>
 
                     <!-- 신용카드 -->
-                    <div class="payment-form-inner" v-if="paymentType == 'card'">
+                    <div ref="card" class="payment-form-inner" v-if="paymentType == 'card'">
                       <div class="single-checkout-box">
                         <input
-                        v-model="paymentName"
+                        v-model="paymentCardName"
+                        v-validate="paymentType == 'card' ? 'required|min:2|max:6' : ''"
+                        name="paymentCardName"
                         class="w-100"
                         type="text"
                         placeholder="이름*">
                         <input
                         v-model="paymentCardNumber"
+                        v-validate="paymentType == 'card' ? 'required' : ''"
+                        name="paymentCardNumber"
                         class="w-100"
                         type="text"
-                        placeholder="카드번호*"
+                        placeholder="카드번호*(-포함)"
                         style="margin-left: 0;">
                       </div>
                       <div class="single-checkout-box select-option">
-                        <select style="width: 104px; margin-left: 20px;" v-model="paymentMonth">
+                        <select
+                        v-model="paymentMonth"
+                        v-validate="paymentType == 'card' ? 'required|min:2|max:2' : ''"
+                        name="paymentMonth"
+                        style="width: 104px; margin-left: 20px;" >
                           <option>월*</option>
-                          <template v-for="month in [ '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12' ]">
-                            <option>{{ month }}</option>
+                          <template v-for="month in months">
+                            <option :value="month">{{ month }}</option>
                           </template>
                         </select>
-                        <select style="width: 104px; margin-left: 20px;" v-model="paymentYear">
+                        <select
+                        v-model="paymentYear"
+                        v-validate="paymentType == 'card' ? 'required|min:2|max:2' : ''"
+                        name="paymentYear"
+                        style="width: 104px; margin-left: 20px;">
                           <option>년도*</option>
-                          <template v-for="month in [19, 20, 21, 22, 23, 24, 25, 26]">
-                            <option>{{ month }}</option>
+                          <template v-for="year in years">
+                            <option :value="year">{{ year }}</option>
                           </template>
                         </select>
-                        <input type="text" placeholder="CVC* (카드 뒷면 7자리중 뒤 3자리)">
+                        <input
+                        v-model="paymentCVC"
+                        v-validate="paymentType == 'card' ? 'required|numeric|min:3|max:3' : ''"
+                        name="paymentCVC"
+                        type="text"
+                        placeholder="CVC* (카드 뒷면 7자리중 뒤 3자리)">
                       </div>
                     </div>
 
                     <!-- 무통장 입금 -->
-                    <div class="payment-form-inner" v-else-if="paymentType == 'cash'">
+                    <div ref="cash" class="payment-form-inner" v-if="paymentType == 'cash'">
                       <div class="single-checkout-box select-option">
-                        <select style="margin: 0; width: 100%;">
-                          <option>월*</option>
-                          <template v-for="month in [ '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12' ]">
-                            <option>{{ month }}</option>
+                        <select
+                        v-model="paymentBank"
+                        v-validate="paymentType == 'cash' ? 'required' : ''"
+                        name="paymentBank"
+                        style="margin: 0; width: 100%;">
+                          <template v-for="bank in banks">
+                            <option>{{ `${bank.bank} ${bank.accountNumber}` }}</option>
                           </template>
                         </select>
                       </div>
                       <div class="single-checkout-box" style="margin-top: 40px;">
-                        <input class="w-100" type="text" placeholder="입금하시는 분*">
+                        <input
+                        v-model="paymentDepositName"
+                        v-validate="paymentType == 'cash' ? 'required|min:2|max:6' : ''"
+                        name="paymentDepositName"
+                        class="w-100"
+                        type="text"
+                        placeholder="입금하시는 분*">
                       </div>
 
                     </div>
@@ -217,7 +267,14 @@
                     <h2 class="section-title-2">할인 정보</h2>
                     <div class="checkout-form-inner">
                       <div class="single-checkout-box">
-                        <input class="w-100" type="number" min="0" :placeholder="candyPlaceholder">
+                        <input
+                        v-model="discountCandy"
+                        v-validate="'required|numeric|min_value:0'"
+                        name="discountCandy"
+                        class="w-100"
+                        type="number"
+                        min="0"
+                        :placeholder="candyPlaceholder">
                       </div>
                     </div>
                   </div>
@@ -247,7 +304,7 @@
                     </div>
 
                     <div class="wc-proceed-to-checkout" style="text-align: center;">
-                      <a href="#" style="width: 100%;">결제하기</a>
+                      <a href="#" style="width: 100%;" @click="payment()">결제하기</a>
                       <!-- <router-link :to="{ name: 'Checkout' }">결제하기</router-link> -->
                     </div>
 
@@ -269,6 +326,14 @@ export default {
     return {
       // View 관련 데이터
       paymentType: 'card', // 'card', 'cash'
+      months: [ '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12' ],
+      years: [ '19', '20', '21', '22', '23', '24', '25', '26' ],
+      banks: [{
+        bank: '농협',
+        accountNumber: '233083-52-031125',
+        accountHolder: '서동성',
+      }],
+
       // Form 데이터
       // 주문고객 정보
       customerName: '',
@@ -291,13 +356,16 @@ export default {
       },
       shippingAddress: '',
       // 결제정보
-      paymentName: '',
+      paymentCardName: '',
       paymentCardNumber: '',
       paymentCVC: '',
       paymentMonth: '월*',
       paymentYear: '년도*',
+      paymentDepositName: '',
       paymentBank: '',
       // 할인정보
+      discountCandy: 0,
+
     }
   },
   computed: {
@@ -305,7 +373,58 @@ export default {
       // return `꿈캔디* (사용가능: ${this.$store.state.user.candy})`
       return `꿈캔디* (사용가능: 9,384개)`
     },
-  }
+  },
+  methods: {
+    async payment () {
+      const result = await this.$validator.validateAll()
+
+      if (result) {
+        // 결제 정보 요청
+        const {
+          customerName, customerEmail, customerPhone,
+          shippingName, shippingPhone, shippingPostCode, shippingAddress,
+          paymentType,
+          paymentCardName, paymentCardNumber, paymentCVC, paymentMonth, paymentYear,
+          paymentDepositName, paymentBank,
+          discountCandy,
+        } = this
+        const orders = this.$store.state.cart.orders
+
+        const customerPhoneNumber = `${customerPhone.first}-${customerPhone.second}-${customerPhone.third}`
+        const shippingPhoneNumber = `${shippingPhone.first}-${shippingPhone.second}-${shippingPhone.third}`
+
+        // console.log({
+        //   customerName, customerEmail, customerPhone,
+        //   shippingName, shippingPhone, shippingPostCode, shippingAddress,
+        //   paymentType,
+        //   paymentCardName, paymentCardNumber, paymentCVC, paymentMonth, paymentYear,
+        //   paymentDepositName, paymentBank,
+        //   discountCandy,
+        //   customerPhoneNumber,
+        //   shippingPhoneNumber,
+        // })
+
+        try {
+          const { data } = await this.$store.dispatch('CHECKOUT', {
+            customerName, customerEmail, customerPhoneNumber,
+            shippingName, shippingPhoneNumber, shippingPostCode, shippingAddress,
+            paymentType,
+            paymentCardName, paymentCardNumber, paymentCVC, paymentMonth, paymentYear,
+            paymentDepositName, paymentBank,
+            discountCandy,
+          })
+          this.$router.push({ name: 'OrderSuccess' })
+        } catch (error) { }
+
+
+      }
+
+      console.log('payment..validation check : ', result)
+
+
+      // this.$router.push({ name: 'OrderSuccess' })
+    }
+  },
 }
 </script>
 
