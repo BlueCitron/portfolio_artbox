@@ -30,6 +30,10 @@ const router = new Router({
       name: 'Index',
       path: '/',
       component: Index,
+      async beforeEnter (to, from, next) {
+        await store.dispatch('FETCH_EVENT_PRODUCTS', { eventId: 1 })
+        next()
+      },
     },
     {
       name: 'Products',
@@ -56,6 +60,7 @@ const router = new Router({
         } else {
           next()
         }
+        next()
       }
     },
     {
@@ -69,7 +74,7 @@ const router = new Router({
       component: ProductDetail,
       async beforeEnter (to, from, next) {
         const { id } = to.params
-        await store.dispatch('FETCH_SINGLE_PRODUCT', { productId: id})
+        await store.dispatch('FETCH_SINGLE_PRODUCT', { productId: id })
         next()
       }
     },
@@ -78,10 +83,12 @@ const router = new Router({
       path: '/checkout',
       component: Checkout,
       beforeEnter (to, from, next) {
-        const { orders } = store.state.cart
-        console.log('orders :', orders)
-        if (orders.length > 0) {
+        const { cart } = store.state.cart
+        const { user } = store.state.user
+        if (cart.length > 0) {
           next()
+        } else if (user.id == undefined || user.id == null) {
+          next({ path: '/login' })
         } else {
           next({ path: '/' })
         }
@@ -96,9 +103,10 @@ const router = new Router({
       name: 'UserInfo',
       path: '/user/:id',
       component: UserInfo,
-      beforeEnter (to, from, next) {
+      async beforeEnter (to, from, next) {
         const { user } = store.state.user
         if (user.id) {
+          await store.dispatch('FETCH_ORDERS')
           next()
         } else {
           next({ path: '/login' })

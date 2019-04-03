@@ -120,4 +120,22 @@ productRouter.get('/:id', async (req, res, next) => {
   });
 });
 
+productRouter.get('/event/:id', async (req, res, next) => {
+  const { id } = req.params;
+  const evnetProductIds = process.env[`EVENT_LIST_${id}`].split(',')
+  try {
+    const eventProducts = await Product.findAll({ where: { id: evnetProductIds }, include: [{ model: Thumbnail, attributes: [ 'url' ] }] });
+    return res.json({
+      success: true,
+      products: eventProducts,
+    })
+  } catch (error) {
+    next(error);
+  }
+})
+
+
+
+
+
 export default productRouter;

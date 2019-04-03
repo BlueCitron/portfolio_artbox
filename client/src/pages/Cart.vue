@@ -1,7 +1,7 @@
 <template>
 <div>
   <!-- Start Bradcaump area -->
-  <div class="ht__bradcaump__area" v-if="$store.state.cart.orders.length > 0">
+  <div class="ht__bradcaump__area" v-if="$store.getters.isCartEmpty">
       <div class="ht__bradcaump__wrap">
           <div class="container">
               <div class="row">
@@ -17,10 +17,10 @@
   <!-- End Bradcaump area -->
   <!-- cart-main-area start -->
   <div class="cart-main-area bg__white">
-      <div class="container" v-if="$store.state.cart.orders.length > 0">
+      <div class="container" v-if="!$store.getters.isCartEmpty">
 
         <div class="row">
-          <h2 class="title__5">총 {{ $store.state.cart.orders.length}}개의 상품이 담겼어요!</h2>
+          <h2 class="title__5">총 {{ $store.state.cart.cart.length }}개의 상품이 담겼어요!</h2>
         </div>
 
         <div class="row">
@@ -38,13 +38,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                              <template v-for="(order, index) in this.$store.state.cart.orders">
+                              <template v-for="(bundle, index) in $store.state.cart.cart">
                                 <tr>
-                                  <td class="product-thumbnail"><a href="#"><img :src="order.product.thumbnails[0].url" alt="product img" /></a></td>
-                                  <td class="product-name"><router-link :to="{ path: `/product/${order.product.id}` }">{{ order.product.name }}</router-link></td>
-                                  <td class="product-price"><span class="amount">{{ ThousandSeparator(order.product.price) }}원</span></td>
-                                  <td class="product-quantity"><input type="number" v-model.number="order.quantity" min="1"/></td>
-                                  <td class="product-subtotal">{{ ThousandSeparator(order.product.price * order.quantity) }}원</td>
+                                  <td class="product-thumbnail"><a href="#"><img :src="bundle.product.thumbnails[0].url" alt="product img" /></a></td>
+                                  <td class="product-name"><router-link :to="{ path: `/product/${bundle.product.id}` }">{{ bundle.product.name }}</router-link></td>
+                                  <td class="product-price"><span class="amount">{{ ThousandSeparator(bundle.product.price) }}원</span></td>
+                                  <td class="product-quantity"><input type="number" v-model.number="bundle.quantity" min="1"/></td>
+                                  <td class="product-subtotal">{{ ThousandSeparator(bundle.product.price * bundle.quantity) }}원</td>
                                   <td class="product-remove"><a href="#" @click="removeOrder(index)">X</a></td>
                                 </tr>
                               </template>
@@ -155,6 +155,5 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 200px;
 }
 </style>

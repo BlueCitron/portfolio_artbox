@@ -10,28 +10,14 @@
       </div>
     </div>
   </div>
-  <!-- Start Bradcaump area -->
-  <!-- <div class="ht__bradcaump__area" style="background: rgba(0, 0, 0, 0) url(/images/ryan_shopping.jpg) no-repeat scroll center center;">
-      <div class="ht__bradcaump__wrap">
-          <div class="container">
-              <div class="row">
-                  <div class="col-12">
-                      <div class="bradcaump__inner text-center">
-                          <h2 class="bradcaump-title">주문완료</h2>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div> -->
-  <!-- End Bradcaump area -->
+
   <!-- Start Checkout Area -->
   <section class="our-checkout-area bg__white">
       <div class="container">
 
         <div class="row mt-5">
           <div class="col-md-12 col-sm-12 col-12">
-            <h2 class="title__4">주문번호: 1904011554000001</h2>
+            <h2 class="title__4">주문번호: {{ $store.state.order.order.orderNo }}</h2>
           </div>
         </div>
 
@@ -45,19 +31,17 @@
                     <th class="product-name">Product</th>
                     <th class="product-price">Price</th>
                     <th class="product-quantity">Quantity</th>
-                    <th class="product-subtotal">Total</th>
                     <th class="product-remove">State</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <template v-for="(order, index) in this.$store.state.cart.orders">
+                  <template v-for="(bundle, index) in this.$store.state.cart.cart">
                     <tr>
-                      <td class="product-thumbnail"><a href="#"><img :src="order.product.thumbnails[0].url" alt="product img" /></a></td>
-                      <td class="product-name"><router-link :to="{ name: '' }">{{ order.product.name }}</router-link></td>
-                      <td class="product-price"><span class="amount">{{ ThousandSeparator(order.product.price) }}원</span></td>
-                      <td class="product-quantity"><input type="number" v-model="order.quantity" /></td>
-                      <td class="product-subtotal">{{ ThousandSeparator(order.product.price * order.quantity) }}원</td>
-                      <td class="product-remove"><a href="#" @click="removeOrder(index)">X</a></td>
+                      <td class="product-thumbnail"><router-link :to="{ name: 'ProductDetail', params: { id: bundle.product.id } }"><img :src="bundle.product.thumbnails[0].url" alt="product img" /></router-link></td>
+                      <td class="product-name"><router-link :to="{ name: 'ProductDetail', params: { id: bundle.product.id } }">{{ bundle.product.name }}</router-link></td>
+                      <td class="product-price"><span class="amount">{{ ThousandSeparator(bundle.product.price) }}원</span></td>
+                      <td class="product-quantity"><input type="text" v-model="bundle.quantity" readonly/></td>
+                      <td class="product-remove"><a href="#">{{ orderState }}</a></td>
                     </tr>
                   </template>
                 </tbody>
@@ -86,6 +70,24 @@
 
 <script>
 export default {
+  computed: {
+    orderState () {
+      const { status } = this.$store.state.cart.order
+      console.log('state : ', this.$store.state.cart.order)
+      if (status == 'WAIT_PAYMENT') {
+        return '입금대기'
+      } else if (status == 'PAID') {
+        return '결제완료'
+      } else if (status == 'SHIPPING') {
+        return '배송중'
+      } else if (status == 'DELIVERY_COMPLETE') {
+        return '배송완료'
+      } else {
+        return '오류'
+      }
+
+    }
+  }
 }
 </script>
 

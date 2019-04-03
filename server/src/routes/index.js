@@ -5,6 +5,7 @@ import productRouter from './product';
 import categoryRouter from './category';
 import orderRouter from './order';
 import userRouter from './user';
+import wishRouter from './wish';
 
 const router = Router();
 
@@ -13,6 +14,7 @@ router.use('/product', productRouter);
 router.use('/category', categoryRouter);
 router.use('/order', orderRouter);
 router.use('/user', userRouter);
+router.use('/wish', wishRouter);
 
 router.get('/', (req, res) => {
   res.json('Hello World')

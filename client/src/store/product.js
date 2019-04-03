@@ -1,4 +1,4 @@
-import { fetchProducts, fetchSingleProduct } from '../apis'
+import { fetchProducts, fetchSingleProduct, fetchEventProducts } from '../apis'
 
 export const state = {
   product: {},
@@ -9,6 +9,7 @@ export const state = {
     page: 0,
     perPage: 12,
   },
+  events: {},
 }
 
 export const getters = {
@@ -24,7 +25,11 @@ export const actions = {
   async FETCH_SINGLE_PRODUCT ({ commit }, { productId }) {
     const { product } = (await fetchSingleProduct({ productId })).data
     commit('SET_PRODUCT', product)
-  }
+  },
+  async FETCH_EVENT_PRODUCTS ({ commit }, { eventId }) {
+    const { products } = (await fetchEventProducts({ eventId })).data
+    commit('SET_EVENT_PRODUCTS', { eventId, data: products })
+  },
 }
 
 export const mutations = {
@@ -36,5 +41,8 @@ export const mutations = {
   },
   SET_PRODUCT (state, data) {
     state.product = data
+  },
+  SET_EVENT_PRODUCTS (state, { eventId, data }) {
+    state.events[eventId] = data
   }
 }

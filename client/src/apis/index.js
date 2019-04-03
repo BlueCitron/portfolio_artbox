@@ -30,3 +30,23 @@ export function verify ({ accessToken }) {
 export function deal (dealInfo) {
   return axios.post(`${ BASE_URL }/order`, dealInfo)
 }
+
+export function fetchOrders ({ userId }) {
+  return axios.get(`${ BASE_URL }/order?userId=${userId}`)
+}
+
+export function fetchWishlist ({ userId }) {
+  return axios.get(`${ BASE_URL }/wish?userId=${userId}`)
+}
+
+export function addToWishlist ({ userId, productId }) {
+  return axios.post(`${ BASE_URL }/wish`, { userId, productId })
+}
+
+export function removeToWishlist ({ userId, productId }) {
+  return axios.delete(`${ BASE_URL }/wish?userId=${userId}&productId=${productId}`)
+}
+
+export function fetchEventProducts ({ eventId }) {
+  return axios.get(`${ BASE_URL }/product/event/${eventId}`)
+}

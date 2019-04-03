@@ -1,59 +1,87 @@
 module.exports = (sequelize, DataTypes) => {
   return sequelize.define('order', {
     orderNo: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(16),
       allowNull: false,
       required: true,
       primaryKey: true,
-      validate: {
-        min: 12,
-        max: 12,
-      }
     },
-    name: {
+    customerName: {
       type: DataTypes.STRING,
       allowNull: false,
       required: true,
     },
-    email: {
-      type: DataTypes.STRING,
-    },
-    phone: {
+    customerEmail: {
       type: DataTypes.STRING,
       allowNull: false,
       required: true,
     },
-    zipCode: {
+    customerPhoneNumber: {
       type: DataTypes.STRING,
       allowNull: false,
       required: true,
     },
-    address: {
+    shippingName: {
       type: DataTypes.STRING,
       allowNull: false,
       required: true,
     },
-    message: {
-      type: DataTypes.TEXT,
+    shippingPhoneNumber: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      required: true,
+    },
+    shippingPostCode: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      required: true,
+    },
+    shippingAddress: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      required: true,
     },
     paymentType: {
       // 무통장입금 카드
-      type: DataTypes.ENUM('WAIT_PAYMENT', 'DEPOSITLESS_PAYMENT', 'CARD'),
+      type: DataTypes.ENUM('CASH', 'CARD'),
       allowNull: false,
       required: true,
     },
-    paymentInfo: {
+    paymentCardName: {
       type: DataTypes.STRING,
-      required: true,
+    },
+    paymentCardNumber: {
+      type: DataTypes.STRING,
+    },
+    paymentCVC: {
+      type: DataTypes.STRING,
+    },
+    paymentMonth: {
+      type: DataTypes.STRING,
+    },
+    paymentYear: {
+      type: DataTypes.STRING,
+    },
+    paymentDepositName: {
+      type: DataTypes.STRING,
+    },
+    paymentBank: {
+      type: DataTypes.STRING,
+    },
+    paymentDate: {
+      type: DataTypes.DATE,
+    },
+    totalPaymentFee: {
+      type: DataTypes.INTEGER,
     },
     status: {
-      // 대기 결제완료 발송중 발송완료
-      type: DataTypes.ENUM('WAIT_PAYMENT', 'PAID', 'SHIPPING', 'SHIP_COMPLETE'),
+      // 입금대기 결제완료 발송중 발송완료
+      type: DataTypes.ENUM('WAIT_PAYMENT', 'PAID', 'SHIPPING', 'DELIVERY_COMPLETE'),
       allowNull: false,
       required: true,
     }
   }, {
     timestamps: true,
-    paranoid: true,
+    // paranoid: true,
   });
 }

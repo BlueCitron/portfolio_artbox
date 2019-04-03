@@ -4,95 +4,80 @@
     <div class="slider__container slider--one">
         <div class="slider__activation__wrap owl-carousel owl-theme">
             <!-- Start Single Slide -->
-            <div class="slide slider__full--screen" style="background: rgba(0, 0, 0, 0) url(/images/slider/bg/kakao_friends.jpg) no-repeat scroll center center / cover ;">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-4 col-sm-12 col-xs-12">
-                            <div class="slider__inner">
-                                <h1>New Product <span class="text--theme">Collection</span></h1>
-                                <div class="slider__btn">
-                                    <a class="htc__btn" href="cart.html">shop now</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="slide slider__full--screen" style="background: rgba(0, 0, 0, 0) url(/images/_custom/main_event_top_1.jpg) no-repeat scroll center center;"></div>
             <!-- End Single Slide -->
             <!-- Start Single Slide -->
-            <div class="slide slider__full--screen" style="background: rgba(0, 0, 0, 0) url(images/slider/bg/2.png) no-repeat scroll center center / cover ;">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-8 col-lg-8 col-sm-12 col-xs-12">
-                            <div class="slider__inner">
-                                <h1>New Product <span class="text--theme">Collection</span></h1>
-                                <div class="slider__btn">
-                                    <a class="htc__btn" href="cart.html">shop now</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="slide slider__full--screen" style="background: rgba(0, 0, 0, 0) url(/images/_custom/main_event_top_2.jpg) no-repeat scroll center center;"></div>
             <!-- End Single Slide -->
         </div>
     </div>
     <!-- Start Slider Area -->
 
     <!-- Start Our Product Area -->
+    <section class="htc__product__area bg__white">
+        <div class="container">
+          <h6 class="title__6">BEST ITEM</h6>
+          <div class="row">
+            <div class="col-md-3" v-for="product in $store.state.product.events[1]">
+              <div class="product" style="background: none;">
+                <div class="product__inner">
+                  <div class="pro__thumb">
+                    <img :src="product.thumbnails[0].url" :alt="product.name">
+                  </div>
+                </div>
+                <div class="product__details">
+                  <h2>
+                    <router-link :to="{ name: 'ProductDetail', params: { id: product.id } }" style="overflow: hidden;">{{ product.name.slice(0, 15) + '..' }}</router-link>
+                  </h2>
+                  <ul class="product__price">
+                    <li class="new__price">{{ ThousandSeparator(product.price) }}원</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </section>
+    <!-- End Our Product Area -->
+
+    <!-- Start Our Product Area -->
     <section class="htc__product__area ptb--130 bg__white">
         <div class="container">
-            <div class="htc__product__container">
-                <!-- Start Product MEnu -->
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="product__menu">
-                            <button data-filter="*"  class="is-checked">All</button>
-                            <button data-filter=".cat--1">Furnitures</button>
-                            <button data-filter=".cat--2">Bags</button>
-                            <button data-filter=".cat--3">Decoration</button>
-                            <button data-filter=".cat--4">Accessories</button>
-                        </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <router-link :to="{ path: `/product?category=${12}&division=${29}` }">
+                  <div style="background: rgba(0, 0, 0, 0) url(images/_custom/main_event_1.jpg) no-repeat scroll center center / cover; width: 100%; height:350px;"></div>
+                </router-link>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="event__product__wrapper">
+                  <div class="product" v-for="product in $store.state.product.events[1]">
+                    <div class="product__inner">
+                      <div class="pro__thumb">
+                        <img :src="product.thumbnails[0].url" :alt="product.name">
+                      </div>
                     </div>
-                </div>
-                <!-- End Product MEnu -->
-                <div class="row product__list">
-                    <!-- Start Single Product -->
-                    <!-- <template>
-                    <div class="col-md-3 single__pro col-lg-3 col-md-4 cat--1 col-sm-12" v-for="item in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]" v-key="item">
-                        <div class="product foo">
-                            <div class="product__inner">
-                                <div class="pro__thumb">
-                                    <a href="#">
-                                        <img src="images/product/1.png" alt="product images">
-                                    </a>
-                                </div>
-                                <div class="product__hover__info">
-                                    <ul class="product__action">
-                                        <li><a data-toggle="modal" data-target="#productModal" title="Quick View" class="quick-view modal-view detail-link" href="#"><span class="ti-plus"></span></a></li>
-                                        <li><a title="Add TO Cart" href="cart.html"><span class="ti-shopping-cart"></span></a></li>
-                                    </ul>
-                                </div>
-                                <div class="add__to__wishlist">
-                                    <a data-toggle="tooltip" title="Add To Wishlist" class="add-to-cart" href="wishlist.html"><span class="ti-heart"></span></a>
-                                </div>
-                            </div>
-                            <div class="product__details">
-                                <h2><a href="product-details.html">Simple Black Clock</a></h2>
-                                <ul class="product__price">
-                                    <li class="old__price">$16.00</li>
-                                    <li class="new__price">$10.00</li>
-                                </ul>
-                            </div>
-                        </div>
+                    <div class="product__details">
+                      <h2>
+                        <router-link :to="{ name: 'ProductDetail', params: { id: product.id } }">{{ product.name }}</router-link>
+                      </h2>
+                      <ul class="product__price">
+                        <li class="new__price">{{ ThousandSeparator(product.price) }}원</li>
+                      </ul>
                     </div>
-                    </template> -->
-                    <!-- End Single Product -->
+                  </div>
                 </div>
+              </div>
             </div>
         </div>
     </section>
     <!-- End Our Product Area -->
+
+
     <!-- Placed js at the end of the document so the pages load faster -->
   </div>
 </template>
@@ -101,16 +86,35 @@
 import main from '@/assets/main.js'
 
 export default {
-  mounted () {
+  async mounted () {
     main()
-  },
-  created () {
-
+    await this.$store.dispatch('FETCH_EVENT_PRODUCTS', { eventId: 1 })
   },
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.event__product__wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background: rgba(223, 243, 254, 1);
+}
+.product {
+  margin: 0;
+  padding: 15px 20px 20px 20px;
+  background: rgba(223, 243, 254, 1);
+  width: 250px;
+}
+.product__price {
+  justify-content: center;
+}
+.new__price {
+  color: #303030;
+}
+.product__details>h2 {
+  text-align: center;
+  overflow: hidden;
+}
 </style>

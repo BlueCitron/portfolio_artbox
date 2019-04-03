@@ -13,7 +13,7 @@ const app = express();
 
 dotenv.config();
 passportConfig(passport);
-//sequelize.sync({ force: false });
+sequelize.sync({ force: false });
 
 const { PORT } = process.env || 3000;
 const { HOST } = process.env || '0.0.0.0';

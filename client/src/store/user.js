@@ -6,7 +6,7 @@ export const state = {
 }
 
 export const getters = {
-
+  isLogedIn: state => !!(Object.keys(state.user).length)
 }
 
 export const actions = {
@@ -21,11 +21,12 @@ export const actions = {
     commit('SET_USER', {})
     commit('SET_ACCESS_TOKEN', '')
   },
-  async VERIFY ({ commit }, { accessToken }) {
+  async VERIFY ({ commit, dispatch }, { accessToken }) {
     const { data } = await verify({ accessToken })
     if (data.success) {
       commit('SET_USER', data.user)
       commit('SET_ACCESS_TOKEN', data.accessToken)
+      dispatch('FETCH_WISHLIST', { userId: data.user.id })
     }
   },
 }

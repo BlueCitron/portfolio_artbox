@@ -75,9 +75,9 @@
                               All Right Reserved.</p>
                           </div>
                           <ul class="footer__menu">
-                              <li><a href="index.html">Home</a></li>
-                              <li><a href="shop.html">Product</a></li>
-                              <li><a href="contact.html">Contact Us</a></li>
+                              <li><router-link :to="{ name: 'Index' }">Home</router-link></li>
+                              <li><router-link :to="{ path: `/product?category=1` }">Product</router-link></li>
+                              <!-- <li><a href="contact.html">Contact Us</a></li> -->
                           </ul>
                       </div>
                   </div>

@@ -1,8 +1,8 @@
 import { deal } from '../apis'
 
 export const state = {
-  orders: [
-    // {
+  cart: [
+    // Bunddle {
     //   product: product,
     //   quantity: 1,
     // }
@@ -10,35 +10,35 @@ export const state = {
 }
 
 export const getters = {
-  totalProductFee: state => state.orders.reduce((sum, order) => sum += (order.product.price * order.quantity), 0),
+  totalProductFee: state => state.cart.reduce((sum, bunddle) => sum += (bunddle.product.price * bunddle.quantity), 0),
   shippingFee: (state, getters) => getters.totalProductFee >= 30000 ? 0 : 2500,
-  totalFee: (state, getters) => getters.totalProductFee ? getters.totalProductFee + getters.shippingFee : 0
+  totalFee: (state, getters) => getters.totalProductFee ? getters.totalProductFee + getters.shippingFee : 0,
+  isCartEmpty: state => !state.cart.length,
 }
 
 export const actions = {
   ADD_TO_CART ({ commit }, { product, quantity }) {
-    commit('PUSH_ORDER', { product, quantity: quantity || 1 })
+    commit('PUSH_BUNDLE', { product, quantity: quantity || 1 })
+  },
+  CLEAR_CART ({ commit }) {
+    commit('SET_CART', [])
   },
   REMOVE_TO_CART ({ commit }, { index }) {
-    commit('POP_ORDER', index)
-  },
-  BUY_NOW ({ commit, dispatch }, { product, quantity }) {
-    commit('SET_ORDERS', [])
-    dispatch('ADD_TO_CART', { product, quantity })
-  },
-  CHECKOUT ({ commit }, dealInfo) {
-    return deal(dealInfo)
+    commit('POP_BUNDLE', index)
   },
 }
 
 export const mutations = {
-  SET_ORDERS (state, data) {
-    state.orders = data
+  SET_CART (state, data) {
+    state.cart = data
   },
-  PUSH_ORDER (state, data) {
-    state.orders.push(data)
+  PUSH_BUNDLE (state, data) {
+    const isExist = state.cart.find(bundle => bundle.product.id == data.product.id)
+    if (!isExist) {
+      state.cart.push(data)
+    }
   },
-  POP_ORDER (state, index) {
-    state.orders.splice(index, 1)
+  POP_BUNDLE (state, index) {
+    state.cart.splice(index, 1)
   }
 }

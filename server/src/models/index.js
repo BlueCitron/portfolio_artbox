@@ -22,17 +22,18 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 
-db.Category     = require('./category')(sequelize, Sequelize);
-db.Division     = require('./division')(sequelize, Sequelize);
-db.Product      = require('./product')(sequelize, Sequelize);
-db.Image        = require('./image')(sequelize, Sequelize);
-db.Delivery     = require('./delivery')(sequelize, Sequelize);
-db.Detail       = require('./detail')(sequelize, Sequelize);
-db.Thumbnail    = require('./thumbnail')(sequelize, Sequelize);
-db.Order        = require('./order')(sequelize, Sequelize);
-db.User         = require('./user')(sequelize, Sequelize);
-db.Preview      = require('./preview')(sequelize, Sequelize);
-db.Information  = require('./product_information')(sequelize, Sequelize);
+db.Category       = require('./category')(sequelize, Sequelize);
+db.Division       = require('./division')(sequelize, Sequelize);
+db.Product        = require('./product')(sequelize, Sequelize);
+db.Image          = require('./image')(sequelize, Sequelize);
+db.Delivery       = require('./delivery')(sequelize, Sequelize);
+db.Detail         = require('./detail')(sequelize, Sequelize);
+db.Thumbnail      = require('./thumbnail')(sequelize, Sequelize);
+db.Order          = require('./order')(sequelize, Sequelize);
+db.User           = require('./user')(sequelize, Sequelize);
+db.Preview        = require('./preview')(sequelize, Sequelize);
+db.Information    = require('./product_information')(sequelize, Sequelize);
+db.OrderedProduct = require('./ordered_product')(sequelize, Sequelize);
 
 // 카테고리 - 중분류
 db.Category.hasMany(db.Division);
@@ -69,5 +70,13 @@ db.Preview.belongsTo(db.Product);
 // 상품 - 정보
 db.Product.hasMany(db.Information);
 db.Information.belongsTo(db.Product);
+
+// 주문 - 주문상품
+db.Order.belongsToMany(db.Product, { through: db.OrderedProduct, foreignKey: 'orderNo' });
+db.Product.belongsToMany(db.Order, { through: db.OrderedProduct, foreignKey: 'productId' });
+
+// 유저 - 상품 (위시리스트)
+db.User.belongsToMany(db.Product, { through: 'wishlist', foreignKey: 'userId' });
+db.Product.belongsToMany(db.User, { through: 'wishlist', foreignKey: 'productId' });
 
 module.exports = db;

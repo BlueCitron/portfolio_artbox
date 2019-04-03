@@ -19,7 +19,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ENUM('default', 'kakao', 'facebook', 'naver'),
       allowNull: false,
       required: true,
-    }
+    },
+    candy: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+    },
   }, {
     timestamps: true,
     paranoid: true,

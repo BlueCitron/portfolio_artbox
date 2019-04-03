@@ -6,14 +6,11 @@
         <div class="row">
           <div class="col-md-12 col-lg-6 col-sm-12">
             <div class="product__details__container">
-                            <div class="product__big__images">
+              <div class="product__big__images">
                 <div class="portfolio-full-image tab-content">
                   <div role="tabpanel" class="tab-pane active" id="img-tab-1">
                     <img :src="Product.previews[0].url" alt="full-image">
                   </div>
-                  <!-- <div role="tabpanel" class="tab-pane active" id="img-tab-1">
-                    <img :src="Product.previews[1].url" alt="full-image">
-                  </div> -->
                 </div>
               </div>
             </div>
@@ -81,6 +78,7 @@
                 </ul>
               </div> -->
               <ul class="pro__dtl__btn">
+                <li class="buy__now__btn"><a href="#" @click="addToCart()">장바구니에 담기</a></li>
                 <li class="buy__now__btn"><a href="#" @click="buyNow()">바로 구매하기</a></li>
                 <li><a href="#"><span class="ti-heart"></span></a></li>
                 <!-- <li><a href="#"><span class="ti-email"></span></a></li> -->
@@ -129,7 +127,6 @@
                     <h2 class="title__6">{{ Product.name }}</h2>
                     <p>{{ Product.description }}</p>
                   </div>
-
                   <!-- 상품 이미지 -->
                   <div>
                     <template v-for="image in Product.images">
@@ -354,6 +351,11 @@ export default {
     }
   },
   methods: {
+    addToCart () {
+      const { product } = this.$store.state.product
+      this.$store.dispatch('ADD_TO_CART', { product, quantity: 1 })
+      alert('장바구니에 추가되었습니다.')
+    },
     buyNow () {
       const product = this.$store.state.product.product
       const quantity = this.quantity

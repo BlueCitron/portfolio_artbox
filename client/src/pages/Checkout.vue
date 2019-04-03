@@ -34,13 +34,13 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <template v-for="(order, index) in this.$store.state.cart.orders">
+                  <template v-for="(bundle, index) in this.$store.state.cart.cart">
                     <tr>
-                      <td class="product-thumbnail"><a href="#"><img :src="order.product.thumbnails[0].url" alt="product img" /></a></td>
-                      <td class="product-name"><router-link :to="{ path: `/product/${order.product.id}` }">{{ order.product.name }}</router-link></td>
-                      <td class="product-price"><span class="amount">{{ ThousandSeparator(order.product.price) }}원</span></td>
-                      <td class="product-quantity"><input type="number" v-model="order.quantity" min="1"/></td>
-                      <td class="product-subtotal">{{ ThousandSeparator(order.product.price * order.quantity) }}원</td>
+                      <td class="product-thumbnail"><a href="#"><img :src="bundle.product.thumbnails[0].url" alt="product img" /></a></td>
+                      <td class="product-name"><router-link :to="{ path: `/product/${bundle.product.id}` }">{{ bundle.product.name }}</router-link></td>
+                      <td class="product-price"><span class="amount">{{ ThousandSeparator(bundle.product.price) }}원</span></td>
+                      <td class="product-quantity"><input type="number" v-model="bundle.quantity" min="0"/></td>
+                      <td class="product-subtotal">{{ ThousandSeparator(bundle.product.price * bundle.quantity) }}원</td>
                       <!-- <td class="product-remove"><a href="#" @click="removeOrder(index)">X</a></td> -->
                     </tr>
                   </template>
@@ -79,27 +79,30 @@
                             </div>
                             <div class="single-checkout-box d-flex justify-content-between">
                                 <input
-                                v-model="customerPhone.first"
+                                v-model="customerPhoneSeg.first"
                                 v-validate="'required|numeric|min:3|max:3'"
-                                name="customerPhoneFirst"
+                                name="customerPhoneSegFirst"
                                 class="w-25"
                                 type="text"
+                                maxlength="3"
                                 placeholder="휴대전화*">
                                 <span style="padding-top: 8px;">-</span>
                                 <input
-                                v-model="customerPhone.second"
+                                v-model="customerPhoneSeg.second"
                                 v-validate="'required|numeric|min:4|max:4'"
-                                name="customerPhoneSecond"
+                                name="customerPhoneSegSecond"
                                 class="w-25"
                                 type="text"
+                                maxlength="4"
                                 placeholder="">
                                 <span style="padding-top: 8px;">-</span>
                                 <input
-                                v-model="customerPhone.third"
+                                v-model="customerPhoneSeg.third"
                                 v-validate="'required|numeric|min:4|max:4'"
-                                name="customerPhoneThird"
+                                name="customerPhoneSegThird"
                                 class="w-25"
                                 type="text"
+                                maxlength="4"
                                 placeholder="">
                             </div>
                         </div>
@@ -120,42 +123,47 @@
                           </div>
                           <div class="single-checkout-box d-flex justify-content-between">
                               <input
-                              v-model="shippingPhone.first"
+                              v-model="shippingPhoneSeg.first"
                               v-validate="'required|numeric|min:3|max:3'"
-                              name="shippingPhoneFirst"
+                              name="shippingPhoneSegFirst"
                               class="w-25"
                               type="text"
+                              maxlength="3"
                               placeholder="휴대전화*">
                               <span style="padding-top: 8px;">-</span>
                               <input
-                              v-model="shippingPhone.second"
+                              v-model="shippingPhoneSeg.second"
                               v-validate="'required|numeric|min:4|max:4'"
-                              name="shippingPhoneSecond"
+                              name="shippingPhoneSegSecond"
                               class="w-25"
                               type="text"
+                              maxlength="4"
                               placeholder="">
                               <span style="padding-top: 8px;">-</span>
                               <input
-                              v-model="shippingPhone.third"
+                              v-model="shippingPhoneSeg.third"
                               v-validate="'required|numeric|min:4|max:4'"
-                              name="shippingPhoneThird"
+                              name="shippingPhoneSegThird"
                               class="w-25"
                               type="text"
+                              maxlength="4"
                               placeholder="">
                           </div>
                           <div class="single-checkout-box d-flex justify-content-between">
                               <input
-                              v-model="shippingPostCode.first"
+                              v-model="shippingPostCodeSeg.first"
                               v-validate="'required|numeric|min:3|max:3'"
-                              name="shippingPostCodeFirst"
+                              name="shippingPostCodeSegFirst"
                               type="text"
+                              maxlength="3"
                               placeholder="우편번호*">
                               <span style="padding-top: 8px;">-</span>
                               <input
-                              v-model="shippingPostCode.second"
+                              v-model="shippingPostCodeSeg.second"
                               v-validate="'required|numeric|min:3|max:3'"
-                              name="shippingPostCodeSecond"
+                              name="shippingPostCodeSegSecond"
                               type="text"
+                              maxlength="3"
                               placeholder="">
                           </div>
                           <div class="single-checkout-box">
@@ -233,6 +241,7 @@
                         v-validate="paymentType == 'card' ? 'required|numeric|min:3|max:3' : ''"
                         name="paymentCVC"
                         type="text"
+                        maxlength="3"
                         placeholder="CVC* (카드 뒷면 7자리중 뒤 3자리)">
                       </div>
                     </div>
@@ -338,19 +347,19 @@ export default {
       // 주문고객 정보
       customerName: '',
       customerEmail: '',
-      customerPhone: {
+      customerPhoneSeg: {
         first: '',
         second: '',
         third: '',
       },
       // 배송지 정보
       shippingName: '',
-      shippingPhone: {
+      shippingPhoneSeg: {
         first: '',
         second: '',
         third: '',
       },
-      shippingPostCode: {
+      shippingPostCodeSeg: {
         first: '',
         second: '',
       },
@@ -377,52 +386,42 @@ export default {
   methods: {
     async payment () {
       const result = await this.$validator.validateAll()
-
+      console.log('Validation: ', this.paymentType, result)
       if (result) {
         // 결제 정보 요청
         const {
-          customerName, customerEmail, customerPhone,
-          shippingName, shippingPhone, shippingPostCode, shippingAddress,
+          customerName, customerEmail, customerPhoneSeg,
+          shippingName, shippingPhoneSeg, shippingPostCodeSeg, shippingAddress,
           paymentType,
           paymentCardName, paymentCardNumber, paymentCVC, paymentMonth, paymentYear,
           paymentDepositName, paymentBank,
           discountCandy,
         } = this
-        const orders = this.$store.state.cart.orders
+        const orderedProducts = this.$store.state.cart.cart
+        const { user } = this.$store.state.user
 
-        const customerPhoneNumber = `${customerPhone.first}-${customerPhone.second}-${customerPhone.third}`
-        const shippingPhoneNumber = `${shippingPhone.first}-${shippingPhone.second}-${shippingPhone.third}`
-
-        // console.log({
-        //   customerName, customerEmail, customerPhone,
-        //   shippingName, shippingPhone, shippingPostCode, shippingAddress,
-        //   paymentType,
-        //   paymentCardName, paymentCardNumber, paymentCVC, paymentMonth, paymentYear,
-        //   paymentDepositName, paymentBank,
-        //   discountCandy,
-        //   customerPhoneNumber,
-        //   shippingPhoneNumber,
-        // })
+        const customerPhoneNumber = `${customerPhoneSeg.first}-${customerPhoneSeg.second}-${customerPhoneSeg.third}`
+        const shippingPhoneNumber = `${shippingPhoneSeg.first}-${shippingPhoneSeg.second}-${shippingPhoneSeg.third}`
+        const shippingPostCode    = `${shippingPostCodeSeg.first}-${shippingPostCodeSeg.second}`
 
         try {
-          const { data } = await this.$store.dispatch('CHECKOUT', {
+          const { data } = this.$store.dispatch('CHECKOUT', {
             customerName, customerEmail, customerPhoneNumber,
             shippingName, shippingPhoneNumber, shippingPostCode, shippingAddress,
             paymentType,
             paymentCardName, paymentCardNumber, paymentCVC, paymentMonth, paymentYear,
             paymentDepositName, paymentBank,
             discountCandy,
+            orderedProducts,
+            user,
           })
+          this.$store.dispatch('CLEAR_CART')
           this.$router.push({ name: 'OrderSuccess' })
         } catch (error) { }
-
+      } else {
 
       }
 
-      console.log('payment..validation check : ', result)
-
-
-      // this.$router.push({ name: 'OrderSuccess' })
     }
   },
 }

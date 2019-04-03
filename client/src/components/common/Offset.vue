@@ -88,17 +88,17 @@
                   <a href="#"><i class="zmdi zmdi-close"></i></a>
               </div>
               <div class="shp__cart__wrap">
-                <template v-for="order in this.$store.state.cart.orders">
+                <template v-for="bundle in this.$store.state.cart.cart">
                   <div class="shp__single__product">
                     <div class="shp__pro__thumb">
                       <a href="#">
-                        <img :src="order.product.thumbnails[0].url" alt="product images">
+                        <img :src="bundle.product.thumbnails[0].url" alt="product images">
                       </a>
                     </div>
                     <div class="shp__pro__details">
-                      <h2><a href="#">{{ order.product.name }}</a></h2>
-                      <span class="quantity">수량 : {{ order.quantity }}</span>
-                      <span class="shp__price">{{ order.product.price }} 원</span>
+                      <h2><a href="#">{{ bundle.product.name }}</a></h2>
+                      <span class="quantity">수량 : {{ bundle.quantity }}</span>
+                      <span class="shp__price">{{ bundle.product.price }} 원</span>
                     </div>
                     <div class="remove__btn">
                       <a href="#" title="Remove this item"><i class="zmdi zmdi-close"></i></a>

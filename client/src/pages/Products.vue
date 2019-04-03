@@ -50,7 +50,7 @@
                                 <div class="product__inner">
                                     <div class="pro__thumb">
                                       <router-link :to="{ name: 'ProductDetail', params: { id: product.id }}">
-                                        <img :src="product.thumbnails[0].url" alt="product images">
+                                        <img :src="product.thumbnails[0].url" :alt="product.name">
                                       </router-link>
 
                                     </div>
@@ -61,11 +61,19 @@
                                         </ul>
                                     </div>
                                     <div class="add__to__wishlist">
-                                        <a data-toggle="tooltip" title="Add To Wishlist" class="add-to-cart" href="wishlist.html"><span class="ti-heart"></span></a>
+                                      <template v-if="$store.getters.isLogedIn">
+                                        <a
+                                        @click="addToWishlist(product)"
+                                        title="위시리스트에 추가"
+                                        class="add-to-cart"
+                                        style="cursor: pointer;"><span :class="{'ti-heart': true,  'active': isWishItem(product) }"></span></a>
+                                      </template>
                                     </div>
                                 </div>
                                 <div class="product__details">
-                                    <h2><a href="product-details.html">{{ product.name }}</a></h2>
+                                    <h2>
+                                      <router-link :to="{ name: 'ProductDetail', params: { id: product.id } }">{{ product.name }}</router-link>
+                                    </h2>
                                     <ul class="product__price">
                                         <!-- <li class="old__price">{{ product.price }}</li> -->
                                         <li class="new__price">{{ ThousandSeparator(product.price) }}원</li>
@@ -178,6 +186,13 @@ export default {
     addToCart (product) {
       this.$store.dispatch('ADD_TO_CART', { product })
       alert('장바구니에 추가되었습니다.')
+    },
+    addToWishlist (product) {
+      this.$store.dispatch('ADD_TO_WISHLIST', { product })
+    },
+    isWishItem (product) {
+      const { wishlist } = this.$store.state.wish
+      return !!wishlist.find(wish => wish.id == product.id)
     }
 
   },
@@ -222,5 +237,8 @@ export default {
 }
 section {
   height: 1487px;
+}
+.ti-heart.active {
+  color: #ff4136;
 }
 </style>
