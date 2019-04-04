@@ -43,7 +43,7 @@
 
 export default function () {
 'use strict';
-console.log('main.js from assets');
+
 const $ = window.$;
 
 /*-------------------------------------------
@@ -61,7 +61,6 @@ $('.mobile-menu nav').meanmenu({
 --------------------------------------------- */
 
   new WOW().init();
-
 
 
 /*-------------------------------------------

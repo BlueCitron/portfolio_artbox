@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import path from 'path';
 
 import authRouter from './auth';
 import productRouter from './product';
@@ -16,8 +17,12 @@ router.use('/order', orderRouter);
 router.use('/user', userRouter);
 router.use('/wish', wishRouter);
 
-router.get('/', (req, res) => {
-  res.json('Hello World')
+// router.get('/', (req, res) => {
+//   res.json('Hello World')
+// });
+
+router.get('/', (req, res, next) => {
+  res.sendFile(path.join(__dirname, '../../public', 'index.html'))
 });
 
 router.use((req, res, next) => {

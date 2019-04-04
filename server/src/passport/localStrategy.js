@@ -12,7 +12,6 @@ export default function (passport) {
       const user = await User.findOne({ where: { username: id } });
       if (user) {
         const result = await bcrypt.compare(pwd, user.password);
-        // const result = user.password == pwd ? true : false;
         if (result) {
           // A - 인증 성공
           const { TOKEN_SECRET, TOKEN_ISSUER, TOKEN_AUDIENCE } = process.env;

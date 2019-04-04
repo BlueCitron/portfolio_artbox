@@ -13,33 +13,10 @@
                           </router-link>
                       </div>
                       <div class="footer__details">
-                          <p>이 사이트는 포트폴리오용으로 제작되었습니다. 이 사이트를 통해 어떠한 영리적 행위도 하지 않음을 밝힙니다.</p>
+                          <p>이 사이트는 포트폴리오용으로 제작되었습니다. 이 사이트의 운영은 어떠한 영리적 목적도 없음을 밝힙니다.</p>
                       </div>
                   </div>
               </div>
-              <!-- End Single Footer Widget -->
-              <!-- Start Single Footer Widget -->
-              <!-- <div class="col-md-6 col-lg-3 col-sm-6 smb-30 xmt-30">
-                  <div class="ft__widget">
-                      <h2 class="ft__title">Newsletter</h2>
-                      <div class="newsletter__form">
-                          <div class="input__box">
-                              <div id="mc_embed_signup">
-                                  <form action="#" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" novalidate>
-                                      <div id="mc_embed_signup_scroll" class="htc__news__inner">
-                                          <div class="news__input">
-                                              <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="Email Address" required>
-                                          </div>
-                                          <div class="clearfix subscribe__btn"><input type="submit" value="Send" name="subscribe" id="mc-embedded-subscribe" class="bst__btn btn--white__color">
-
-                                          </div>
-                                      </div>
-                                  </form>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div> -->
               <!-- End Single Footer Widget -->
               <!-- Start Single Footer Widget -->
               <div class="col-md-6 col-lg-4 col-sm-6 smt-30 xmt-30">
@@ -73,7 +50,7 @@
                       <div class="copyright__inner">
                           <div class="copyright">
                               <p>© {{ (new Date()).getFullYear() }} <a href="https://github.com/BlueCitron" target="_blank">BlueCitron</a>
-                              All Right Reserved.</p>
+                              All Right On Artbox Corporation.</p>
                           </div>
                           <ul class="footer__menu">
                               <li><router-link :to="{ name: 'Index' }">Home</router-link></li>

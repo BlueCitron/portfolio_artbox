@@ -40,8 +40,6 @@
 /*--------------------------------
 [ End table content ]
 -----------------------------------*/
-let test = 'Hello World'
-
 
 const waitingTime = 700
 
