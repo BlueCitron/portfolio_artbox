@@ -4,7 +4,7 @@ module.exports = {
     script: 'app.js',
     instances: 1,
     autorestart: true,
-    watch: false,
+    watch: [ 'dist' ],
     max_memory_restart: '1G',
     env_production: {
       NODE_ENV: 'production',
