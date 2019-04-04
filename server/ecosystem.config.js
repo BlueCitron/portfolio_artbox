@@ -1,9 +1,8 @@
 module.exports = {
   apps : [{
     name: 'ARTBOX_SERVER',
-    //script: 'index.js',
+    script: 'index.js',
     args: [ 'serve' ],
-    script: './node_modules/@vue/cli-service/bin/vue-cli-service.js',
     instances: 1,
     autorestart: false,
     watch: [ 'src' ],
