@@ -4,11 +4,17 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --dest ../server/public",
-    "lint": "vue-cli-service lint"
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "prod": "pm2 start ecosystem.config.js --env production"
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "cors": "^2.8.5",
+    "dotenv": "^7.0.0",
+    "express": "^4.16.4",
+    "moment": "^2.24.0",
+    "morgan": "^1.9.1",
     "querystring": "^0.2.0",
     "vee-validate": "^2.2.0",
     "vue": "^2.6.6",
