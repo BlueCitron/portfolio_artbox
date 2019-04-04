@@ -15,8 +15,8 @@ export function fetchSingleProduct ({ productId }) {
   return axios.get(`${ BASE_URL }/product/${productId}`,)
 }
 
-export function register ({ username, password, email }) {
-  return axios.post(`${ BASE_URL }/user`, { username, password, email })
+export function register ({ username, email, password, postCode, address, phone }) {
+  return axios.post(`${ BASE_URL }/user`, { username, email, password, postCode, address, phone })
 }
 
 export function login ({ username, password }) {

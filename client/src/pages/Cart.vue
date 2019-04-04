@@ -107,7 +107,7 @@
         <div class="row">
           <div class="col-md-12">
             <div class="empty-cart-wrap">
-              <div class="my-4" style="width: 200px; height: 153px; background: rgba(0, 0, 0, 0) url(/images/sad_ryan.jpg) no-repeat scroll center center;"></div>
+              <div class="my-4" style="width: 200px; height: 153px; background: rgba(0, 0, 0, 0) url(/images/_custom/etc/sad_ryan.jpg) no-repeat scroll center center;"></div>
               <h2 class="title__5">장바구니가 비었어요.</h2>
               <h2 class="title__5">관심있는 상품을 담아보세요.</h2>
               <div class="htc__login__btn mt--30">

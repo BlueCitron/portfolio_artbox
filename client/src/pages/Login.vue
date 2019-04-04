@@ -18,56 +18,74 @@
                         <!-- Start Single Content -->
                         <div id="login" role="tabpanel" class="single__tabs__panel tab-pane active">
                             <form class="login" method="post">
-                                <input type="text" placeholder="User Name*" v-model="authUsername">
+                                <input type="text" placeholder="Account*" v-model="authUsername">
                                 <input type="password" placeholder="Password*" v-model="authPassword">
                             </form>
-                            <div class="tabs__checkbox">
+                            <!-- <div class="tabs__checkbox">
                                 <input type="checkbox">
                                 <span> Remember me</span>
                                 <span class="forget"><a href="#">Forget Pasword?</a></span>
-                            </div>
+                            </div> -->
                             <div class="htc__login__btn mt--30">
                                 <a href="#" @click="authenticate()">Login</a>
                             </div>
-                            <div class="htc__social__connect">
+                            <!-- <div class="htc__social__connect">
                                 <h2>Or Login With</h2>
                                 <ul class="htc__soaial__list">
-                                    <!-- <li><a class="bg--twitter" href="https://twitter.com/devitemsllc" target="_blank"><i class="zmdi zmdi-twitter"></i></a></li>
-
+                                    <li><a class="bg--twitter" href="https://twitter.com/devitemsllc" target="_blank"><i class="zmdi zmdi-twitter"></i></a></li>
                                     <li><a class="bg--instagram" href="https://www.instagram.com/devitems/" target="_blank"><i class="zmdi zmdi-instagram"></i></a></li>
-
                                     <li><a class="bg--facebook" href="https://www.facebook.com/devitems/?ref=bookmarks" target="_blank"><i class="zmdi zmdi-facebook"></i></a></li>
-
-                                    <li><a class="bg--googleplus" href="https://plus.google.com/" target="_blank"><i class="zmdi zmdi-google-plus"></i></a></li> -->
+                                    <li><a class="bg--googleplus" href="https://plus.google.com/" target="_blank"><i class="zmdi zmdi-google-plus"></i></a></li>
                                     <h2>Comming Soon</h2>
                                 </ul>
-                            </div>
+                            </div> -->
                         </div>
                         <!-- End Single Content -->
                         <!-- Start Single Content -->
                         <div id="register" role="tabpanel" class="single__tabs__panel tab-pane">
-                            <form class="login" method="post">
-                                <input type="text" placeholder="Name*" v-model="regUsername">
-                                <input type="email" placeholder="Email*" v-model="regEmail">
-                                <input type="password" placeholder="Password*" v-model="regPassword">
+                            <form class="login">
+                                <input
+                                v-model="regUsername"
+                                type="text"
+                                placeholder="Account*">
+                                <input
+                                v-model="regEmail"
+                                type="email"
+                                placeholder="Email*">
+                                <input
+                                v-model="regPassword"
+                                type="password"
+                                placeholder="Password*">
+                                <input
+                                v-model="regPasswordRe"
+                                type="password"
+                                placeholder="PasswordRe*">
+                                <input
+                                v-model="regPostCode"
+                                type="text"
+                                placeholder="PostCode* ex) 123-456">
+                                <input
+                                v-model="regAddress"
+                                type="text"
+                                placeholder="Address* ex) 경기도 이천시 송정동 현진에버빌 102동 509호">
+                                <input
+                                v-model="regPhone"
+                                type="text"
+                                placeholder="Phone* ex) 010-7392-8550">
                             </form>
-                            <div class="tabs__checkbox">
-                                <input type="checkbox">
-                                <span> Remember me</span>
-                            </div>
                             <div class="htc__login__btn">
                                 <a href="#" @click="register()">register</a>
                             </div>
-                            <div class="htc__social__connect">
+                            <!-- <div class="htc__social__connect">
                                 <h2>Or Login With</h2>
                                 <ul class="htc__soaial__list">
-                                    <!-- <li><a class="bg--twitter" href="https://twitter.com/devitemsllc" target="_blank"><i class="zmdi zmdi-twitter"></i></a></li>
+                                    <li><a class="bg--twitter" href="https://twitter.com/devitemsllc" target="_blank"><i class="zmdi zmdi-twitter"></i></a></li>
                                     <li><a class="bg--instagram" href="https://www.instagram.com/devitems/" target="_blank"><i class="zmdi zmdi-instagram"></i></a></li>
                                     <li><a class="bg--facebook" href="https://www.facebook.com/devitems/?ref=bookmarks" target="_blank"><i class="zmdi zmdi-facebook"></i></a></li>
-                                    <li><a class="bg--googleplus" href="https://plus.google.com/" target="_blank"><i class="zmdi zmdi-google-plus"></i></a></li> -->
+                                    <li><a class="bg--googleplus" href="https://plus.google.com/" target="_blank"><i class="zmdi zmdi-google-plus"></i></a></li>
                                     <h2>Comming Soon</h2>
                                 </ul>
-                            </div>
+                            </div> -->
                         </div>
                         <!-- End Single Content -->
                     </div>
@@ -89,49 +107,77 @@ export default {
       regUsername: '',
       regEmail: '',
       regPassword: '',
+      regPasswordRe: '',
+      regPostCode: '',
+      regAddress: '',
+      regPhone: '',
     }
   },
   methods: {
     async authenticate () {
       const { state, dispatch, commit } = this.$store
-      const username = this.authUsername
-      const password = this.authPassword
+      const username    = this.authUsername
+      const password    = this.authPassword
+
       try {
         const { success, accessToken } = (await dispatch('LOGIN', { username, password })).data
         if (success) {
           commit('SET_ACCESS_TOKEN', accessToken)
-          dispatch('VERIFY', { accessToken })
-
+          await dispatch('VERIFY', { accessToken })
+          this.initiateModel()
           const { fullPath } = state.from
           this.$router.push({ path: fullPath })
         }
       } catch({ response }) {
         const { success, message } = response.data
         console.log('Error from authenticate/Login.vue : ', message)
-        this.authUsername = ''
-        this.authPassword = ''
+        this.initiateModel()
       }
 
     },
 
     async register () {
       const { dispatch, commit } = this.$store
-      const username  = this.regUsername
-      const email     = this.regEmail
-      const password  = this.regPassword
+      const username    = this.regUsername
+      const email       = this.regEmail
+      const password    = this.regPassword
+      const passwordRe  = this.regPasswordRe
+      const postCode    = this.regPostCode
+      const address     = this.regAddress
+      const phone       = this.regPhone
+
+      if (password != passwordRe) {
+        alert('비밀번호가 일치하지 않습니다.')
+        this.regPassword    = ''
+        this.regPasswordRe  = ''
+        return
+      }
+
       try {
-        const { data } = await dispatch('REGISTER', { username, email, password })
-        this.regUsername = ''
-        this.regEmail = ''
-        this.regPassword = ''
-        this.$refs.loginTab.click()
+        const { success } = (await dispatch('REGISTER', { username, email, password, postCode, address, phone })).data
+        if (success) {
+          alert('가입이 완료되었습니다.')
+          this.initiateModel()
+          this.$refs.loginTab.click()
+        }
       } catch ({ response }) {
         console.log('Error from register/Login.vue : ', message)
-        this.regUsername = ''
-        this.regEmail = ''
-        this.regPassword = ''
+        alert('가입에 실패했습니다. 다시 시도해주세요.')
+        this.initiateModel()
       }
-    }
+    },
+
+    initiateModel () {
+      this.authUsername = ''
+      this.authPassword = ''
+      this.regUsername    = ''
+      this.regEmail       = ''
+      this.regPassword    = ''
+      this.regPasswordRe  = ''
+      this.regPostCode    = ''
+      this.regAddress     = ''
+      this.regPhone       = ''
+    },
 
   },
 }
@@ -152,5 +198,12 @@ export default {
 }
 .product__menu button {
   padding: 0 10px;
+}
+.login>input {
+  margin-top: 30px;
+  font-size: 12px;
+}
+..htc__login__register__wrap {
+  max-width: 420px;
 }
 </style>

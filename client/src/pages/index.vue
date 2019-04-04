@@ -22,7 +22,7 @@
         <div class="container">
           <h6 class="title__6">BEST ITEM</h6>
           <div class="row">
-            <div class="col-md-3" v-for="product in $store.state.product.bests">
+            <div class="best-item" v-for="product in $store.state.product.bests">
               <div class="product" style="background: none;">
                 <div class="product__inner">
                   <div class="pro__thumb">
@@ -122,5 +122,11 @@ export default {
 .product__details>h2 {
   text-align: center;
   overflow: hidden;
+}
+.best-item {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 25%;
+  flex: 0 0 20%;
+  max-width: 20%;
 }
 </style>

@@ -10,9 +10,8 @@ export const getters = {
 }
 
 export const actions = {
-  REGISTER ({ }, { username, email, password }) {
-    console.log('register action : ', { username, email, password })
-    return register({ username, email, password })
+  REGISTER ({ }, { username, email, password, postCode, address, phone }) {
+    return register({ username, email, password, postCode, address, phone })
   },
   LOGIN ({ }, { username, password }) {
     return login({ username, password })

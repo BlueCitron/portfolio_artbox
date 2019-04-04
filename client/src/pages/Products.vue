@@ -124,7 +124,7 @@ export default {
   computed: {
     sliderBackgroundID () {
       const { category } = this.$store.state.category
-      return category ? category.id : 1
+      return category ? category.alias : 1
     }
   },
   methods: {

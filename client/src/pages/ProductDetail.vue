@@ -21,21 +21,7 @@
                 <h2>{{ Product.name }}</h2>
                 <h6 class="my-3">{{ Product.division.category.name }} > {{ Product.division.name }}</h6>
               </div>
-              <!-- <div class="pro__dtl__rating">
-                <ul class="pro__rating">
-                  <li><span class="ti-star"></span></li>
-                  <li><span class="ti-star"></span></li>
-                  <li><span class="ti-star"></span></li>
-                  <li><span class="ti-star"></span></li>
-                  <li><span class="ti-star"></span></li>
-                </ul>
-                <span class="rat__qun">(Based on 0 Ratings)</span>
-              </div> -->
-              <!-- <div class="pro__details">
-                <p>{{ Product.description }}</p>
-              </div> -->
               <ul class="pro__dtl__prize">
-                <!-- <li class="old__prize">$15.21</li> -->
                 <li>{{ ThousandSeparator(Product.price) }}원</li>
               </ul>
               <div class="pro__dtl__color d-flex">
@@ -59,7 +45,7 @@
               <div class="pro__dtl__color d-flex">
                 <h2 class="title__5" style="width: 100px;">수량</h2>
                 <ul class="pro__choose__color mx-5">
-                  <li class="red"><input class="cart-plus-minus-box" type="number" name="qtybutton" v-model="quantity"></li>
+                  <li class="red"><input class="cart-plus-minus-box" type="number" name="qtybutton" min="1" v-model="quantity"></li>
                 </ul>
               </div>
               <hr/>
@@ -67,16 +53,6 @@
                 <h2 class="title__4">총 합계금액</h2>
                 <h2 class="title__4">{{ ThousandSeparator(Product.price * quantity) }}원</h2>
               </div>
-              <!-- <div class="pro__dtl__size">
-                <h2 class="title__5">Size</h2>
-                <ul class="pro__choose__size">
-                  <li><a href="#">xl</a></li>
-                  <li><a href="#">m</a></li>
-                  <li><a href="#">ml</a></li>
-                  <li><a href="#">lm</a></li>
-                  <li><a href="#">xxl</a></li>
-                </ul>
-              </div> -->
               <ul class="pro__dtl__btn">
                 <li class="buy__now__btn"><a href="#" @click="addToCart()">장바구니에 담기</a></li>
                 <li class="buy__now__btn"><a href="#" @click="buyNow()">바로 구매하기</a></li>
@@ -85,17 +61,7 @@
                   @click="addToWishlist(Product)"
                   title="위시리스트에 추가"
                   href="#"><span :class="{'ti-heart': true,  'active': isWishItem(Product) }"></span></a></li>
-                <!-- <li><a href="#"><span class="ti-email"></span></a></li> -->
               </ul>
-              <!-- <div class="pro__social__share">
-                <h2>Share :</h2>
-                <ul class="pro__soaial__link">
-                  <li><a href="https://twitter.com/devitemsllc" target="_blank"><i class="zmdi zmdi-twitter"></i></a></li>
-                  <li><a href="https://www.instagram.com/devitems/" target="_blank"><i class="zmdi zmdi-instagram"></i></a></li>
-                  <li><a href="https://www.facebook.com/devitems/?ref=bookmarks" target="_blank"><i class="zmdi zmdi-facebook"></i></a></li>
-                  <li><a href="https://plus.google.com/" target="_blank"><i class="zmdi zmdi-google-plus"></i></a></li>
-                </ul>
-              </div> -->
             </div>
           </div>
         </div>
@@ -114,9 +80,6 @@
               <li role="presentation">
                 <a href="#sheet" role="tab" data-toggle="tab">상품상세</a>
               </li>
-              <!-- <li role="presentation">
-                <a href="#reviews" role="tab" data-toggle="tab">상품후기</a>
-              </li> -->
             </ul>
           </div>
         </div>
@@ -200,127 +163,6 @@
                   </template>
                 </div>
 
-              </div>
-              <!-- End Single Content -->
-              <!-- Start Single Content -->
-              <div role="tabpanel" id="reviews" class="product__tab__content">
-                <div class="review__address__inner">
-                  <!-- Start Single Review -->
-                  <div class="pro__review">
-                    <div class="review__thumb">
-                      <img src="images/review/1.jpg" alt="review images">
-                    </div>
-                    <div class="review__details">
-                      <div class="review__info">
-                        <h4><a href="#">Gerald Barnes</a></h4>
-                        <ul class="rating">
-                          <li><i class="zmdi zmdi-star"></i></li>
-                          <li><i class="zmdi zmdi-star"></i></li>
-                          <li><i class="zmdi zmdi-star"></i></li>
-                          <li><i class="zmdi zmdi-star-half"></i></li>
-                          <li><i class="zmdi zmdi-star-half"></i></li>
-                        </ul>
-                        <div class="rating__send">
-                          <a href="#"><i class="zmdi zmdi-mail-reply"></i></a>
-                          <a href="#"><i class="zmdi zmdi-close"></i></a>
-                        </div>
-                      </div>
-                      <div class="review__date">
-                        <span>27 Jun, 2016 at 2:30pm</span>
-                      </div>
-                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer accumsan egestas elese ifend. Phasellus a felis at estei to bibendum feugiat ut eget eni Praesent et messages in con sectetur posuere dolor non.</p>
-                    </div>
-                  </div>
-                  <!-- End Single Review -->
-                  <!-- Start Single Review -->
-                  <div class="pro__review ans">
-                    <div class="review__thumb">
-                      <img src="images/review/2.jpg" alt="review images">
-                    </div>
-                    <div class="review__details">
-                      <div class="review__info">
-                        <h4><a href="#">Gerald Barnes</a></h4>
-                        <ul class="rating">
-                          <li><i class="zmdi zmdi-star"></i></li>
-                          <li><i class="zmdi zmdi-star"></i></li>
-                          <li><i class="zmdi zmdi-star"></i></li>
-                          <li><i class="zmdi zmdi-star-half"></i></li>
-                          <li><i class="zmdi zmdi-star-half"></i></li>
-                        </ul>
-                        <div class="rating__send">
-                          <a href="#"><i class="zmdi zmdi-mail-reply"></i></a>
-                          <a href="#"><i class="zmdi zmdi-close"></i></a>
-                        </div>
-                      </div>
-                      <div class="review__date">
-                        <span>27 Jun, 2016 at 2:30pm</span>
-                      </div>
-                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer accumsan egestas elese ifend. Phasellus a felis at estei to bibendum feugiat ut eget eni Praesent et messages in con sectetur posuere dolor non.</p>
-                    </div>
-                  </div>
-                  <!-- End Single Review -->
-                </div>
-                <!-- Start RAting Area -->
-                <div class="rating__wrap">
-                  <h2 class="rating-title">Write  A review</h2>
-                  <h4 class="rating-title-2">Your Rating</h4>
-                  <div class="rating__list">
-                    <!-- Start Single List -->
-                    <ul class="rating">
-                      <li><i class="zmdi zmdi-star-half"></i></li>
-                    </ul>
-                    <!-- End Single List -->
-                    <!-- Start Single List -->
-                    <ul class="rating">
-                      <li><i class="zmdi zmdi-star-half"></i></li>
-                      <li><i class="zmdi zmdi-star-half"></i></li>
-                    </ul>
-                    <!-- End Single List -->
-                    <!-- Start Single List -->
-                    <ul class="rating">
-                      <li><i class="zmdi zmdi-star-half"></i></li>
-                      <li><i class="zmdi zmdi-star-half"></i></li>
-                      <li><i class="zmdi zmdi-star-half"></i></li>
-                    </ul>
-                    <!-- End Single List -->
-                    <!-- Start Single List -->
-                    <ul class="rating">
-                      <li><i class="zmdi zmdi-star-half"></i></li>
-                      <li><i class="zmdi zmdi-star-half"></i></li>
-                      <li><i class="zmdi zmdi-star-half"></i></li>
-                      <li><i class="zmdi zmdi-star-half"></i></li>
-                    </ul>
-                    <!-- End Single List -->
-                    <!-- Start Single List -->
-                    <ul class="rating">
-                      <li><i class="zmdi zmdi-star-half"></i></li>
-                      <li><i class="zmdi zmdi-star-half"></i></li>
-                      <li><i class="zmdi zmdi-star-half"></i></li>
-                      <li><i class="zmdi zmdi-star-half"></i></li>
-                      <li><i class="zmdi zmdi-star-half"></i></li>
-                    </ul>
-                    <!-- End Single List -->
-                  </div>
-                </div>
-                <!-- End RAting Area -->
-                <div class="review__box">
-                  <form id="review-form">
-                    <div class="single-review-form">
-                      <div class="review-box name">
-                        <input type="text" placeholder="Type your name">
-                        <input type="email" placeholder="Type your email">
-                      </div>
-                    </div>
-                    <div class="single-review-form">
-                      <div class="review-box message">
-                        <textarea placeholder="Write your review"></textarea>
-                      </div>
-                    </div>
-                    <div class="review-btn">
-                      <a class="fv-btn" href="#">submit review</a>
-                    </div>
-                  </form>
-                </div>
               </div>
               <!-- End Single Content -->
             </div>

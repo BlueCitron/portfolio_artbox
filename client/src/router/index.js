@@ -107,9 +107,12 @@ const router = new Router({
       path: '/user/:id',
       component: UserInfo,
       async beforeEnter (to, from, next) {
-        const { user } = store.state.user
+        const { user, accessToken } = store.state.user
         if (user.id) {
-          await store.dispatch('FETCH_ORDERS')
+          await Promise.all([
+            store.dispatch('FETCH_ORDERS'),
+            // store.dispatch('VERIFY', { accessToken: accessToken })
+          ])
           next()
         } else {
           next({ path: '/login' })

@@ -2,7 +2,7 @@ import { Router } from 'express';
 import moment from 'moment';
 import { Op } from 'sequelize';
 
-import { Order, OrderedProduct, Product, Thumbnail } from '../models';
+import { User, Order, OrderedProduct, Product, Thumbnail } from '../models';
 
 const orderRouter = Router();
 
@@ -72,7 +72,10 @@ orderRouter.post('/', async (req, res, next) => {
   const today = new Date();
   const orderNo =  `${moment().format('YYYYMMDDHHmm')}${pad(oneDayCount + 1, 4)}`;
   let totalPaymentFee = orderedProducts.reduce((prev, next) => prev += next.product.price * next.quantity, 0);
-      totalPaymentFee < 30000 ? (totalPaymentFee += 2500) : '';
+      totalPaymentFee < 30000 ? (totalPaymentFee += 2500) : '';   // 배송비 적용
+      discountCandy > 0 ? (totalPaymentFee -= discountCandy * 10) : '';   // 캔디 할인 적용
+  const totalCandy = orderedProducts.reduce((prev, next) => prev += next.product.candy * next.quantity, 0);
+  console.log('totalCandy : ', totalCandy);
   let newOrder = null;
   if (paymentType == 'card') {
     // 카드결제
@@ -87,6 +90,7 @@ orderRouter.post('/', async (req, res, next) => {
       status: 'PAID',
       userId: user.id,
     });
+    addCandyToUser(user.id, totalCandy - discountCandy);
     setOrderStatus(newOrder, 'SHIPPING', 10);
     setOrderStatus(newOrder, 'DELIVERY_COMPLETE', 20);
     await Promise.all(orderedProducts.map(({ product, quantity }) => newOrder.addProduct(product.id, { through: { quantity } })));
@@ -96,7 +100,7 @@ orderRouter.post('/', async (req, res, next) => {
       message: '주문이 완료되었습니다.',
       status: newOrder.status,
       order: newOrder,
-
+      products: orderedProducts,
     });
   } else if (paymentType == 'cash'){
     // 무통장입금
@@ -111,6 +115,7 @@ orderRouter.post('/', async (req, res, next) => {
       status: 'WAIT_PAYMENT',
       userId: user.id,
     });
+    addCandyToUser(user.id, totalCandy - discountCandy);
     setOrderStatus(newOrder, 'PAID', 10);
     setOrderStatus(newOrder, 'SHIPPING', 20);
     setOrderStatus(newOrder, 'DELIVERY_COMPLETE', 30);
@@ -120,6 +125,7 @@ orderRouter.post('/', async (req, res, next) => {
       success: true,
       message: '주문이 완료되었습니다.',
       order: newOrder,
+      products: orderedProducts,
     });
   } else {
     return res.json({
@@ -138,6 +144,12 @@ function setOrderStatus (order, status, second) {
   setTimeout(() => {
     order.update({ status });
   }, 1000 * second);
+}
+
+async function addCandyToUser (userId, candy) {
+  const user = await User.findOne({ where: { id: userId } });
+  const existCandy = user.candy;
+  await user.update({ candy: existCandy + candy });
 }
 
 export default orderRouter;

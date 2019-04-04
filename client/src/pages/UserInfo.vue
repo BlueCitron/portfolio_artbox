@@ -21,7 +21,7 @@
             </div>
             <div class="lookup-item">
               <h6 class="title__5">꿈캔디</h6>
-              <h6 class="title__6" style="margin-bottom: 0;">100</h6>
+              <h6 class="title__6" style="margin-bottom: 0;">{{ $store.state.user.user.candy }}</h6>
             </div>
           </div>
         </div>

@@ -30,7 +30,6 @@
                     <th class="product-price">Price</th>
                     <th class="product-quantity">Quantity</th>
                     <th class="product-subtotal">Total</th>
-                    <!-- <th class="product-remove">Remove</th> -->
                   </tr>
                 </thead>
                 <tbody>
@@ -41,7 +40,6 @@
                       <td class="product-price"><span class="amount">{{ ThousandSeparator(bundle.product.price) }}원</span></td>
                       <td class="product-quantity"><input type="number" v-model="bundle.quantity" min="0"/></td>
                       <td class="product-subtotal">{{ ThousandSeparator(bundle.product.price * bundle.quantity) }}원</td>
-                      <!-- <td class="product-remove"><a href="#" @click="removeOrder(index)">X</a></td> -->
                     </tr>
                   </template>
                 </tbody>
@@ -283,6 +281,7 @@
                         class="w-100"
                         type="number"
                         min="0"
+                        :max="$store.state.user.user.candy"
                         :placeholder="candyPlaceholder">
                       </div>
                     </div>
@@ -292,7 +291,7 @@
                     <h2 class="section-title-2">최종 결제 금액</h2>
                     <div class="payment-item" style="margin-top: 40px;">
                       <h6>총 상품금액</h6>
-                      <h6>{{ ThousandSeparator(this.$store.getters.totalProductFee) }} 원</h6>
+                      <h6>{{ ThousandSeparator($store.getters.totalProductFee) }} 원</h6>
                     </div>
                     <div class="payment-item">
                       <h6>배송비</h6>
@@ -304,12 +303,12 @@
                     </div>
                     <div class="payment-item">
                       <h6>꿈캔디 적용</h6>
-                      <h6>- 0 원</h6>
+                      <h6>- {{ discountCandy * 10 }} 원</h6>
                     </div>
                     <hr>
                     <div class="payment-item" style="align-items: center;">
                       <h5 style="font-size: 24px;">총 결제금액</h5>
-                      <h5 class="final-amount">{{ ThousandSeparator(this.$store.getters.totalFee) }} 원</h5>
+                      <h5 class="final-amount">{{ ThousandSeparator($store.getters.totalFee - (discountCandy * 10)) }} 원</h5>
                     </div>
 
                     <div class="wc-proceed-to-checkout" style="text-align: center;">
@@ -373,18 +372,20 @@ export default {
       paymentDepositName: '',
       paymentBank: '',
       // 할인정보
-      discountCandy: 0,
+      discountCandy: '',
 
     }
   },
   computed: {
     candyPlaceholder () {
       // return `꿈캔디* (사용가능: ${this.$store.state.user.candy})`
-      return `꿈캔디* (사용가능: 9,384개)`
+      const { candy } = this.$store.state.user.user
+      return `꿈캔디* (사용가능: ${ this.ThousandSeparator(candy) }개)`
     },
   },
   methods: {
     async payment () {
+      const { state, dispatch } = this.$store
       const result = await this.$validator.validateAll()
       console.log('Validation: ', this.paymentType, result)
       if (result) {
@@ -397,15 +398,15 @@ export default {
           paymentDepositName, paymentBank,
           discountCandy,
         } = this
-        const orderedProducts = this.$store.state.cart.cart
-        const { user } = this.$store.state.user
+        const orderedProducts = state.cart.cart
+        const { user } = state.user
 
         const customerPhoneNumber = `${customerPhoneSeg.first}-${customerPhoneSeg.second}-${customerPhoneSeg.third}`
         const shippingPhoneNumber = `${shippingPhoneSeg.first}-${shippingPhoneSeg.second}-${shippingPhoneSeg.third}`
         const shippingPostCode    = `${shippingPostCodeSeg.first}-${shippingPostCodeSeg.second}`
 
         try {
-          const { data } = this.$store.dispatch('CHECKOUT', {
+          const { data } = dispatch('CHECKOUT', {
             customerName, customerEmail, customerPhoneNumber,
             shippingName, shippingPhoneNumber, shippingPostCode, shippingAddress,
             paymentType,
@@ -415,7 +416,8 @@ export default {
             orderedProducts,
             user,
           })
-          this.$store.dispatch('CLEAR_CART')
+          dispatch('CLEAR_CART')
+          await dispatch('VERIFY', { accessToken: state.user.accessToken })
           this.$router.push({ name: 'OrderSuccess' })
         } catch (error) { }
       } else {

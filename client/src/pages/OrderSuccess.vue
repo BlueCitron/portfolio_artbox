@@ -35,7 +35,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <template v-for="(bundle, index) in this.$store.state.cart.cart">
+                  <template v-for="(bundle, index) in this.$store.state.order.order.products">
                     <tr>
                       <td class="product-thumbnail"><router-link :to="{ name: 'ProductDetail', params: { id: bundle.product.id } }"><img :src="bundle.product.thumbnails[0].url" alt="product img" /></router-link></td>
                       <td class="product-name"><router-link :to="{ name: 'ProductDetail', params: { id: bundle.product.id } }">{{ bundle.product.name }}</router-link></td>
@@ -72,8 +72,7 @@
 export default {
   computed: {
     orderState () {
-      const { status } = this.$store.state.cart.order
-      console.log('state : ', this.$store.state.cart.order)
+      const { status } = this.$store.state.order.order
       if (status == 'WAIT_PAYMENT') {
         return '입금대기'
       } else if (status == 'PAID') {
@@ -85,7 +84,6 @@ export default {
       } else {
         return '오류'
       }
-
     }
   }
 }

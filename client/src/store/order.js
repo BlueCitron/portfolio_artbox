@@ -20,7 +20,8 @@ export const actions = {
     dispatch('ADD_TO_CART', { product, quantity })
   },
   async CHECKOUT ({ commit }, dealInfo) {
-    const { order } = (await deal(dealInfo)).data
+    const { order, products } = (await deal(dealInfo)).data
+    order['products'] = products
     commit('SET_ORDER', order)
   },
 }
