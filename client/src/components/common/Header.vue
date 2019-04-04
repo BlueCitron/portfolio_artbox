@@ -8,7 +8,7 @@
                   <div class="col-md-2 col-lg-2 col-6">
                       <div class="logo">
                           <router-link :to="{ name: 'Index' }">
-                            <img src="/images/logo/artbox.png" alt="logo">
+                            <img src="/images/_custom/logo/artbox.png" alt="메인으로 가기">
                           </router-link>
                       </div>
                   </div>
@@ -16,7 +16,7 @@
                   <div class="col-md-8 col-lg-8 d-none d-md-block">
                       <nav class="mainmenu__nav  d-none d-lg-block">
                           <ul class="main__menu">
-                              <li v-for="category in this.$store.state.category.categories" :key="category.id">
+                              <li v-for="category in $store.state.category.categories" :key="category.id">
                                 <a href="#" @click="handleMainMenu(category)">{{ category.name }}</a>
                               </li>
                           </ul>
@@ -25,7 +25,7 @@
                       <div class="mobile-menu clearfix d-block d-lg-none">
                           <nav id="mobile_dropdown">
                               <ul>
-                                <li v-for="category in this.$store.state.category.categories" :key="category.id">
+                                <li v-for="category in $store.state.category.categories" :key="category.id">
                                   <a href="#" @click="handleMainMenu(category)">{{ category.name }}</a>
                                 </li>
                               </ul>

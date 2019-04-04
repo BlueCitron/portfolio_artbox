@@ -11,6 +11,8 @@ import ProductDetail    from '@/pages/ProductDetail.vue'
 import Checkout         from '@/pages/Checkout.vue'
 import OrderSuccess     from '@/pages/OrderSuccess.vue'
 import UserInfo         from '@/pages/UserInfo.vue'
+import EventDetail      from '@/pages/EventDetail.vue'
+import Search      from '@/pages/Search.vue'
 
 
 Vue.use(Router)
@@ -31,7 +33,11 @@ const router = new Router({
       path: '/',
       component: Index,
       async beforeEnter (to, from, next) {
-        await store.dispatch('FETCH_EVENT_PRODUCTS', { eventId: 1 })
+        await Promise.all([
+          store.dispatch('FETCH_EVENT_PRODUCTS', { type: 'MAIN', eventId: 1 }),
+          store.dispatch('FETCH_EVENT_PRODUCTS', { type: 'PROMOTION', eventId: 1 }),
+          store.dispatch('FETCH_BEST_PRODUCTS', { countBy: 10 }),
+        ])
         next()
       },
     },
@@ -58,9 +64,9 @@ const router = new Router({
         if (user.id) {
           next({ path: `/user/${user.id}` })
         } else {
+          store.commit('SET_FROM', from)
           next()
         }
-        next()
       }
     },
     {
@@ -84,11 +90,8 @@ const router = new Router({
       component: Checkout,
       beforeEnter (to, from, next) {
         const { cart } = store.state.cart
-        const { user } = store.state.user
         if (cart.length > 0) {
           next()
-        } else if (user.id == undefined || user.id == null) {
-          next({ path: '/login' })
         } else {
           next({ path: '/' })
         }
@@ -112,7 +115,36 @@ const router = new Router({
           next({ path: '/login' })
         }
       }
+    },{
+      name: 'EventDetail',
+      path: '/event/:type/:id',
+      component: EventDetail,
+      async beforeEnter (to, from, next) {
+        const { type, id } = to.params
+        if (type != 'main' && type != 'promotion' && type != 'new_arrival') {
+          next({ path: '/' })
+        }
+        await store.dispatch('FETCH_EVENT_PRODUCTS', { type: type.toUpperCase(), eventId: id })
+        next()
+      }
     },
+    {
+      name: 'Search',
+      path: '/search',
+      component: Search,
+      async beforeEnter (to, from, next) {
+        const { name, page } = to.query
+        if (!name) {
+          next({ path: '/' })
+        }
+        await store.dispatch('SEARCH_PRODUCTS', { name, page })
+        next()
+      }
+    },
+    {
+      path: '*',
+      redirect: { name: 'Index' },
+    }
   ],
   scrollBehavior (to, from, savedPosition) {
     // 원하는 위치로 돌아가기

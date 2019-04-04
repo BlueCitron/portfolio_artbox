@@ -21,7 +21,7 @@
                 <h2>{{ Product.name }}</h2>
                 <h6 class="my-3">{{ Product.division.category.name }} > {{ Product.division.name }}</h6>
               </div>
-              <div class="pro__dtl__rating">
+              <!-- <div class="pro__dtl__rating">
                 <ul class="pro__rating">
                   <li><span class="ti-star"></span></li>
                   <li><span class="ti-star"></span></li>
@@ -30,7 +30,7 @@
                   <li><span class="ti-star"></span></li>
                 </ul>
                 <span class="rat__qun">(Based on 0 Ratings)</span>
-              </div>
+              </div> -->
               <!-- <div class="pro__details">
                 <p>{{ Product.description }}</p>
               </div> -->
@@ -80,7 +80,11 @@
               <ul class="pro__dtl__btn">
                 <li class="buy__now__btn"><a href="#" @click="addToCart()">장바구니에 담기</a></li>
                 <li class="buy__now__btn"><a href="#" @click="buyNow()">바로 구매하기</a></li>
-                <li><a href="#"><span class="ti-heart"></span></a></li>
+                <li v-if="$store.getters.isLogedIn">
+                  <a
+                  @click="addToWishlist(Product)"
+                  title="위시리스트에 추가"
+                  href="#"><span :class="{'ti-heart': true,  'active': isWishItem(Product) }"></span></a></li>
                 <!-- <li><a href="#"><span class="ti-email"></span></a></li> -->
               </ul>
               <!-- <div class="pro__social__share">
@@ -105,14 +109,14 @@
           <div class="col-md-12 col-lg-12 col-sm-12">
             <ul class="nav product__deatils__tab mb--60" role="tablist">
               <li role="presentation" class="active">
-                <a class="active" href="#description" role="tab" data-toggle="tab">상품상세</a>
+                <a class="active" href="#description" role="tab" data-toggle="tab">상품보기</a>
               </li>
               <li role="presentation">
-                <a href="#sheet" role="tab" data-toggle="tab">Data sheet</a>
+                <a href="#sheet" role="tab" data-toggle="tab">상품상세</a>
               </li>
-              <li role="presentation">
+              <!-- <li role="presentation">
                 <a href="#reviews" role="tab" data-toggle="tab">상품후기</a>
-              </li>
+              </li> -->
             </ul>
           </div>
         </div>
@@ -135,31 +139,6 @@
                       </p>
                     </template>
                   </div>
-
-                  <template v-if="Product.product_informations.length != 0">
-                    <hr>
-                    <!-- 상품 Information -->
-                    <div class="pro__feature">
-                      <h2 class="title__5 mb-4">Information</h2>
-                      <ul class="feature__list">
-                        <template v-for="information in Product.product_informations">
-                          <li style="font-size: 12px;">{{ information.content }}</li>
-                        </template>
-                      </ul>
-                    </div>
-                  </template>
-
-                  <!-- 상품정보제공 고시 상세정보 -->
-                  <template>
-                    <hr>
-                    <h2 class="title__5 mb-4">상품정보제공 고시 상세정보</h2>
-                      <template v-for="detail in Product.details">
-                        <div class="d-flex">
-                          <h6 class="detail__type">{{ detail.type}}</h6>
-                          <p class="detail__content">{{ detail.content }}</p>
-                        </div>
-                      </template>
-                  </template>
 
                   <!-- 상품 배송 정보-->
                   <template>
@@ -194,18 +173,33 @@
               <!-- End Single Content -->
               <!-- Start Single Content -->
               <div role="tabpanel" id="sheet" class="product__tab__content">
+
                 <div class="pro__feature">
-                  <h2 class="title__6">Data sheet</h2>
-                  <ul class="feature__list">
-                    <li><a href="#"><i class="zmdi zmdi-play-circle"></i>Duis aute irure dolor in reprehenderit in voluptate velit esse</a></li>
-                    <li><a href="#"><i class="zmdi zmdi-play-circle"></i>Irure dolor in reprehenderit in voluptate velit esse</a></li>
-                    <li><a href="#"><i class="zmdi zmdi-play-circle"></i>Irure dolor in reprehenderit in voluptate velit esse</a></li>
-                    <li><a href="#"><i class="zmdi zmdi-play-circle"></i>Sed do eiusmod tempor incididunt ut labore et </a></li>
-                    <li><a href="#"><i class="zmdi zmdi-play-circle"></i>Sed do eiusmod tempor incididunt ut labore et </a></li>
-                    <li><a href="#"><i class="zmdi zmdi-play-circle"></i>Nisi ut aliquip ex ea commodo consequat.</a></li>
-                    <li><a href="#"><i class="zmdi zmdi-play-circle"></i>Nisi ut aliquip ex ea commodo consequat.</a></li>
-                  </ul>
+                  <template v-if="Product.product_informations.length != 0">
+                    <!-- 상품 Information -->
+                    <div class="pro__feature">
+                      <h2 class="title__5 mb-4">Information</h2>
+                      <ul class="feature__list">
+                        <template v-for="information in Product.product_informations">
+                          <li style="font-size: 12px;">{{ information.content }}</li>
+                        </template>
+                      </ul>
+                    </div>
+                  </template>
+
+                  <!-- 상품정보제공 고시 상세정보 -->
+                  <template>
+                    <hr>
+                    <h2 class="title__5 mb-4">상품정보제공 고시 상세정보</h2>
+                      <template v-for="detail in Product.details">
+                        <div class="d-flex">
+                          <h6 class="detail__type">{{ detail.type}}</h6>
+                          <p class="detail__content">{{ detail.content }}</p>
+                        </div>
+                      </template>
+                  </template>
                 </div>
+
               </div>
               <!-- End Single Content -->
               <!-- Start Single Content -->
@@ -362,7 +356,14 @@ export default {
       this.$store.dispatch('BUY_NOW', { product, quantity })
       this.$router.push({ name: 'Cart' })
       this.quantity = 1
-    }
+    },
+    addToWishlist (product) {
+      this.$store.dispatch('ADD_TO_WISHLIST', { product })
+    },
+    isWishItem (product) {
+      const { wishlist } = this.$store.state.wish
+      return !!wishlist.find(wish => wish.id == product.id)
+    },
   }
 
 }
@@ -390,5 +391,8 @@ export default {
   padding: 0 0 0 20px;
   margin: 8px 0;
   color: grey;
+}
+.ti-heart.active {
+  color: #ff4136;
 }
 </style>

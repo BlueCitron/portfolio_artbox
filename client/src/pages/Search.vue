@@ -6,16 +6,7 @@
               <!-- Start Single Slide -->
               <div
               class="slide slider__full--screen"
-              :style="`background: rgba(0, 0, 0, 0) url(/images/_custom/category/category_${sliderBackgroundID}.jpg) no-repeat scroll center center;`">
-                  <div class="container">
-                      <div class="row">
-                          <div class="col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-4 col-sm-12 col-xs-12">
-                            <div class="slider__inner">
-                                <h2>{{ $store.state.category.category.name }}</h2>
-                            </div>
-                          </div>
-                      </div>
-                  </div>
+              :style="`background: rgba(0, 0, 0, 0) url(/images/_custom/etc/search.jpg) no-repeat scroll center center;`">
               </div>
               <!-- End Single Slide -->
           </div>
@@ -23,25 +14,16 @@
       <!-- Start Slider Area -->
 
       <!-- Start Our Product Area -->
-      <section class="htc__product__area ptb--130 bg__white">
+      <section class="htc__product__area bg__white">
           <div class="container">
               <div class="htc__product__container">
-                  <!-- Start Product MEnu -->
-                  <div class="row">
-                      <div class="col-md-12">
-                          <div class="product__menu">
-                              <button
-                              :class="{ 'is-checked': $store.state.category.division == null }"
-                              @click="handleProductMenu({ id: '', name: 'ALL' })">All</button>
-                              <template v-for="division in this.$store.getters.GET_CURRENT_DIVISIONS">
-                                <button
-                                :class="{ 'is-checked': isChecked(division) }"
-                                @click="handleProductMenu(division)">{{ division.name }}</button>
-                              </template>
-                          </div>
-                      </div>
-                  </div>
-                  <!-- End Product MEnu -->
+                <!-- Start Product MEnu -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>총 {{ $store.state.product.pageInfo.totalItems }}건의 상품이 검색되었습니다.</h2>
+                    </div>
+                </div>
+                <!-- End Product MEnu -->
                   <div class="row product__list">
                       <!-- Start Single Product -->
                       <template>
@@ -56,13 +38,7 @@
                                     </div>
                                     <div class="product__hover__info">
                                         <ul class="product__action">
-                                            <li><a
-                                              @click="setQuickView(product)"
-                                              data-toggle="modal"
-                                              data-target="#productModal"
-                                              title="간단히 보기"
-                                              class="quick-view modal-view detail-link"
-                                              href="#"><span class="ti-plus"></span></a></li>
+                                            <li><a data-toggle="modal" data-target="#productModal" title="간단히 보기" class="quick-view modal-view detail-link" href="#"><span class="ti-plus"></span></a></li>
                                             <li><a title="카트에 담기" href="#" @click="addToCart(product)"><span class="ti-shopping-cart"></span></a></li>
                                         </ul>
                                     </div>
@@ -113,114 +89,49 @@
 </template>
 
 <script>
-import querystring from 'querystring'
-
 export default {
   data () {
     return {
-      check: false,
+
     }
   },
   computed: {
-    sliderBackgroundID () {
-      const { category } = this.$store.state.category
-      return category ? category.id : 1
-    }
+
   },
   methods: {
-    // 1. 중분류 메뉴 클릭
-    async handleProductMenu (division) {
-      const { category } = this.$store.state.category
-      this.setDivision(division)
-      this.gotoDivision(category, division)
-      await this.$store.dispatch('FETCH_PRODUCTS', { categoryId: category.id, divisionId: division.id })
-      window.sr.reveal('.foo')
-    },
-    // 1-1. 중분류 Set
-    setDivision (division) {
-      this.$store.commit('SET_DIVISION', division)
-    },
-    // 1-2. 중분류 이동
-    gotoDivision (category, division) {
-      this.$router.push({ path: `/product?category=${category.id}&division=${division.id}` })
-    },
-
-    isChecked (division) {
-      return this.$store.state.category.division == division
-    },
-    // 3-1. 이전페이지
     async prevPage () {
       const { state, dispatch } = this.$store
-
-      const { category, division } = state.category
-
+      const { name } = this.$route.query
       const { pageInfo } = state.product
       const { page, totalPages } = pageInfo
-
       if (page > 1) {
-        await dispatch('FETCH_PRODUCTS', {
-          categoryId: category.id,
-          divisionId: division ? division.id : '',
+        await dispatch('SEARCH_PRODUCTS', {
+          name,
           page: (page/1 - 1)
         })
-        const query = querystring.stringify({ category: category.id, division: division ? division.id : '', page: (page/1 - 1) })
-        this.$router.push({ path: `/product?${query}`})
         window.sr.reveal('.foo')
       }
     },
-    // 3-2. 다음페이지
     async nextPage () {
       const { state, dispatch } = this.$store
-
-      const { category, division } = state.category
-
+      const { name } = this.$route.query
       const { pageInfo } = state.product
       const { page, totalPages } = pageInfo
-
+      console.log('nextPage : ', name, page)
       if (page < totalPages) {
-        await dispatch('FETCH_PRODUCTS', {
-          categoryId: category.id,
-          divisionId: division ? division.id : '',
+        await dispatch('SEARCH_PRODUCTS', {
+          name,
           page: (page/1 + 1)
         })
-        const query = querystring.stringify({ category: category.id, division: division ? division.id : '', page: (page/1 + 1) })
-        this.$router.push({ path: `/product?${query}`})
         window.sr.reveal('.foo')
       }
     },
-    // 4.장바구니에 추가
-    addToCart (product) {
-      this.$store.dispatch('ADD_TO_CART', { product })
-      alert('장바구니에 추가되었습니다.')
-    },
-    addToWishlist (product) {
-      this.$store.dispatch('ADD_TO_WISHLIST', { product })
-    },
-    isWishItem (product) {
-      const { wishlist } = this.$store.state.wish
-      return !!wishlist.find(wish => wish.id == product.id)
-    },
-    setQuickView (product) {
-      this.$store.commit('SET_QUICKVIEW', product)
-    },
-
   },
   mounted () {
 
   },
   async created () {
-    const { state, commit, dispatch } = this.$store
-    const { category, division } = this.$route.query
 
-    // 카테고리 조회
-    await dispatch('FETCH_CATEGORY')
-
-    // 현재 카테고리 설정
-    const nowCategory = state.category.categories.find(item => item.id == category)
-    const nowDivision = state.category.divisions.find(item => item.id == division)
-
-    commit('SET_CATEGORY', nowCategory || { id: 1, name: '인형/토이'})
-    commit('SET_DIVISION', nowDivision)
   }
 }
 </script>
@@ -246,8 +157,5 @@ export default {
 }
 section {
   height: 1487px;
-}
-.ti-heart.active {
-  color: #ff4136;
 }
 </style>

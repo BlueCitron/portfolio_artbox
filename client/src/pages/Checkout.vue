@@ -421,9 +421,14 @@ export default {
       } else {
 
       }
-
     }
   },
+  mounted () {
+    const { user } = this.$store.state.user
+    if (user.id == undefined || user.id == null) {
+      this.$router.push({ name: 'Login' })
+    }
+  }
 }
 </script>
 

@@ -47,6 +47,15 @@ export function removeToWishlist ({ userId, productId }) {
   return axios.delete(`${ BASE_URL }/wish?userId=${userId}&productId=${productId}`)
 }
 
-export function fetchEventProducts ({ eventId }) {
-  return axios.get(`${ BASE_URL }/product/event/${eventId}`)
+export function fetchEventProducts ({ type, eventId }) {
+  return axios.get(`${ BASE_URL }/product/event/${type}/${eventId}`)
+}
+
+export function fetchBestProducts ({ countBy }) {
+  return axios.get(`${ BASE_URL }/product/best?countBy=${countBy || ''}`)
+}
+
+export function searchProducts ({ name, page }) {
+  console.log('API searchProducts : ', { name, page })
+  return axios.get(`${ BASE_URL }/product/search?name=${name}&page=${page || ''}`)
 }

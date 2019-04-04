@@ -5,21 +5,21 @@
       <div class="container">
           <div class="row footer__container clearfix">
               <!-- Start Single Footer Widget -->
-              <div class="col-md-6 col-lg-3 col-sm-6">
+              <div class="col-md-6 col-lg-4 col-sm-6">
                   <div class="ft__widget">
                       <div class="ft__logo">
                           <router-link :to="{ name: 'Index' }">
-                            <img src="/images/logo/artbox.png" alt="footer logo">
+                            <img src="/images/_custom/logo/artbox.png" alt="메인으로 가기">
                           </router-link>
                       </div>
                       <div class="footer__details">
-                          <p>Get 10% discount with notified about the latest news and updates.</p>
+                          <p>이 사이트는 포트폴리오용으로 제작되었습니다. 이 사이트를 통해 어떠한 영리적 행위도 하지 않음을 밝힙니다.</p>
                       </div>
                   </div>
               </div>
               <!-- End Single Footer Widget -->
               <!-- Start Single Footer Widget -->
-              <div class="col-md-6 col-lg-3 col-sm-6 smb-30 xmt-30">
+              <!-- <div class="col-md-6 col-lg-3 col-sm-6 smb-30 xmt-30">
                   <div class="ft__widget">
                       <h2 class="ft__title">Newsletter</h2>
                       <div class="newsletter__form">
@@ -39,14 +39,15 @@
                           </div>
                       </div>
                   </div>
-              </div>
+              </div> -->
               <!-- End Single Footer Widget -->
               <!-- Start Single Footer Widget -->
-              <div class="col-md-6 col-lg-3 col-sm-6 smt-30 xmt-30">
+              <div class="col-md-6 col-lg-4 col-sm-6 smt-30 xmt-30">
                   <div class="ft__widget contact__us">
-                      <h2 class="ft__title">Contact Us</h2>
+                      <h2 class="ft__title">Contact Me</h2>
                       <div class="footer__inner">
-                          <p> 319 Clematis St. <br> Suite 100 WPB, FL 33401 </p>
+                          <p>E-MAIL sds901234@naver.com</p>
+                          <p>PHONE 010-7392-8550</p>
                       </div>
                   </div>
               </div>
@@ -54,12 +55,12 @@
               <!-- Start Single Footer Widget -->
               <div class="col-md-6 col-lg-2 lg-offset-1 col-sm-6 smt-30 xmt-30">
                   <div class="ft__widget">
-                      <h2 class="ft__title">Follow Us</h2>
+                      <h2 class="ft__title">Follow Me</h2>
                       <ul class="social__icon">
-                          <li><a href="https://twitter.com/devitemsllc" target="_blank"><i class="zmdi zmdi-twitter"></i></a></li>
-                          <li><a href="https://www.instagram.com/devitems/" target="_blank"><i class="zmdi zmdi-instagram"></i></a></li>
+                          <li><a href="https://github.com/BlueCitron/portfolio_artbox" target="_blank"><i class="zmdi zmdi-github"></i></a></li>
+                          <!-- <li><a href="https://www.instagram.com/devitems/" target="_blank"><i class="zmdi zmdi-instagram"></i></a></li>
                           <li><a href="https://www.facebook.com/devitems/?ref=bookmarks" target="_blank"><i class="zmdi zmdi-facebook"></i></a></li>
-                          <li><a href="https://plus.google.com/" target="_blank"><i class="zmdi zmdi-google-plus"></i></a></li>
+                          <li><a href="https://plus.google.com/" target="_blank"><i class="zmdi zmdi-google-plus"></i></a></li> -->
                       </ul>
                   </div>
               </div>
@@ -71,7 +72,7 @@
                   <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
                       <div class="copyright__inner">
                           <div class="copyright">
-                              <p>© 2018 <a href="https://freethemescloud.com/" target="_blank">Free themes Cloud</a>
+                              <p>© {{ (new Date()).getFullYear() }} <a href="https://github.com/BlueCitron" target="_blank">BlueCitron</a>
                               All Right Reserved.</p>
                           </div>
                           <ul class="footer__menu">

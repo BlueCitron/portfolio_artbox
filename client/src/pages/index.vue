@@ -4,10 +4,14 @@
     <div class="slider__container slider--one">
         <div class="slider__activation__wrap owl-carousel owl-theme">
             <!-- Start Single Slide -->
-            <div class="slide slider__full--screen" style="background: rgba(0, 0, 0, 0) url(/images/_custom/main_event_top_1.jpg) no-repeat scroll center center;"></div>
+            <router-link :to="{ name: 'EventDetail', params: { type: 'main', id: 1 } }">
+              <div class="slide slider__full--screen" style="background: rgba(0, 0, 0, 0) url(/images/_custom/event/event_main_1.jpg) no-repeat scroll center center;"></div>
+            </router-link>
             <!-- End Single Slide -->
             <!-- Start Single Slide -->
-            <div class="slide slider__full--screen" style="background: rgba(0, 0, 0, 0) url(/images/_custom/main_event_top_2.jpg) no-repeat scroll center center;"></div>
+            <router-link :to="{ name: 'EventDetail', params: { type: 'main', id: 2 } }">
+              <div class="slide slider__full--screen" style="background: rgba(0, 0, 0, 0) url(/images/_custom/event/event_main_2.jpg) no-repeat scroll center center;"></div>
+            </router-link>
             <!-- End Single Slide -->
         </div>
     </div>
@@ -18,11 +22,13 @@
         <div class="container">
           <h6 class="title__6">BEST ITEM</h6>
           <div class="row">
-            <div class="col-md-3" v-for="product in $store.state.product.events[1]">
+            <div class="col-md-3" v-for="product in $store.state.product.bests">
               <div class="product" style="background: none;">
                 <div class="product__inner">
                   <div class="pro__thumb">
-                    <img :src="product.thumbnails[0].url" :alt="product.name">
+                    <router-link :to="{ name: 'ProductDetail', params: { id: product.id } }">
+                      <img :src="product.thumbnails[0].url" :alt="product.name">
+                    </router-link>
                   </div>
                 </div>
                 <div class="product__details">
@@ -47,7 +53,7 @@
             <div class="row">
               <div class="col-md-12">
                 <router-link :to="{ path: `/product?category=${12}&division=${29}` }">
-                  <div style="background: rgba(0, 0, 0, 0) url(images/_custom/main_event_1.jpg) no-repeat scroll center center / cover; width: 100%; height:350px;"></div>
+                  <div style="background: rgba(0, 0, 0, 0) url(images/_custom/event/event_promotion_1.jpg) no-repeat scroll center center / cover; width: 100%; height:350px;"></div>
                 </router-link>
               </div>
             </div>
@@ -55,7 +61,7 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="event__product__wrapper">
-                  <div class="product" v-for="product in $store.state.product.events[1]">
+                  <div class="product" v-for="product in $store.state.product.events.PROMOTION_1">
                     <div class="product__inner">
                       <div class="pro__thumb">
                         <img :src="product.thumbnails[0].url" :alt="product.name">
@@ -88,7 +94,7 @@ import main from '@/assets/main.js'
 export default {
   async mounted () {
     main()
-    await this.$store.dispatch('FETCH_EVENT_PRODUCTS', { eventId: 1 })
+    // await this.$store.dispatch('FETCH_EVENT_PRODUCTS', { eventId: 1 })
   },
 }
 </script>

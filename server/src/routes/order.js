@@ -22,6 +22,7 @@ orderRouter.get('/', async (req, res, next) => {
   const { userId } = req.query;
   const orders = await Order.findAll({
     where: { userId },
+    order: [ ['createdAt', 'DESC'] ],
     include: [{
       model: Product,
       include: [{
@@ -67,9 +68,9 @@ orderRouter.post('/', async (req, res, next) => {
   } = req.body;
 
 
-  const oneMinuteCount = await Order.count({ where: { createdAt: { [Op.gte]: moment().startOf('day').toDate() } } });
+  const oneDayCount = await Order.count({ where: { createdAt: { [Op.gte]: moment().startOf('day').toDate() } } });
   const today = new Date();
-  const orderNo =  `${moment().format('YYYYMMDDHHmm')}${pad(oneMinuteCount + 1, 4)}`;
+  const orderNo =  `${moment().format('YYYYMMDDHHmm')}${pad(oneDayCount + 1, 4)}`;
   let totalPaymentFee = orderedProducts.reduce((prev, next) => prev += next.product.price * next.quantity, 0);
       totalPaymentFee < 30000 ? (totalPaymentFee += 2500) : '';
   let newOrder = null;

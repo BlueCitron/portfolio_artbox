@@ -7,10 +7,16 @@
               <div class="row" >
                   <div class="col-md-12" >
                       <div class="search__inner">
-                          <form action="#" method="get">
-                              <input placeholder="Search here... " type="text">
-                              <button type="submit"></button>
-                          </form>
+                          <div>
+                              <input
+                              v-model="search"
+                              placeholder="찾고 싶은 상품을 검색해보세요."
+                              type="text"
+                              @keyup.enter="searchProducts(search)">
+                              <button
+                              type="button"
+                              @click="searchProducts(search)"></button>
+                          </div>
                           <div class="search__close__btn">
                               <span class="search__close__btn_icon"><i class="zmdi zmdi-close"></i></span>
                           </div>
@@ -124,6 +130,11 @@
 
 <script>
 export default {
+  data () {
+    return {
+      search: '',
+    }
+  },
   methods: {
     gotoCart () {
       document.querySelector('.body__overlay').setAttribute('class', 'body__overlay')
@@ -134,6 +145,16 @@ export default {
       document.querySelector('.body__overlay').setAttribute('class', 'body__overlay')
       document.querySelector('.shopping__cart').setAttribute('class', 'shopping__cart')
       this.$router.push({ name: 'Checkout' })
+    },
+    async searchProducts (name) {
+      const { path } = this.$route
+      if (path == '/search') {
+        await this.$store.dispatch('SEARCH_PRODUCTS', { name, page: 1 })
+        this.$router.push({ path: `/search?name=${name}&page=1`})
+      } else {
+        this.$router.push({ path: `/search?name=${name}&page=1`})
+      }
+      this.search = ''
     }
   }
 }

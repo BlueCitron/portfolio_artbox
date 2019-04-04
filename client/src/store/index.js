@@ -19,4 +19,12 @@ export default new Vuex.Store({
     order,
     wish,
   },
+  state: {
+    from: null
+  },
+  mutations: {
+    SET_FROM (state, data) {
+      state.from = data
+    }
+  }
 })

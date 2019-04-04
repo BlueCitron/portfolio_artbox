@@ -93,7 +93,7 @@ export default {
   },
   methods: {
     async authenticate () {
-      const { dispatch, commit } = this.$store
+      const { state, dispatch, commit } = this.$store
       const username = this.authUsername
       const password = this.authPassword
       try {
@@ -101,7 +101,9 @@ export default {
         if (success) {
           commit('SET_ACCESS_TOKEN', accessToken)
           dispatch('VERIFY', { accessToken })
-          this.$router.push('/')
+
+          const { fullPath } = state.from
+          this.$router.push({ path: fullPath })
         }
       } catch({ response }) {
         const { success, message } = response.data
