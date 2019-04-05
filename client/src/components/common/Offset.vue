@@ -104,7 +104,7 @@
                     <div class="shp__pro__details">
                       <h2><a href="#">{{ bundle.product.name }}</a></h2>
                       <span class="quantity">수량 : {{ bundle.quantity }}</span>
-                      <span class="shp__price">{{ bundle.product.price }} 원</span>
+                      <span class="shp__price">{{ ThousandSeparator(bundle.product.price) }} 원</span>
                     </div>
                     <div class="remove__btn">
                       <a href="#" title="Remove this item"><i class="zmdi zmdi-close"></i></a>
