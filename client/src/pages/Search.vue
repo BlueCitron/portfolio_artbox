@@ -117,7 +117,6 @@ export default {
       const { name } = this.$route.query
       const { pageInfo } = state.product
       const { page, totalPages } = pageInfo
-      console.log('nextPage : ', name, page)
       if (page < totalPages) {
         await dispatch('SEARCH_PRODUCTS', {
           name,

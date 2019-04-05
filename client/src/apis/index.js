@@ -56,6 +56,5 @@ export function fetchBestProducts ({ countBy }) {
 }
 
 export function searchProducts ({ name, page }) {
-  console.log('API searchProducts : ', { name, page })
   return axios.get(`${ BASE_URL }/product/search?name=${name}&page=${page || ''}`)
 }

@@ -37,7 +37,6 @@ export const actions = {
     commit('SET_BEST_PRODUCTS', products)
   },
   async SEARCH_PRODUCTS ({ commit }, { name, page }) {
-    console.log('SEARCH_PRODUCTS : ', { name, page })
     const { products, pageInfo } = (await searchProducts({ name, page })).data
     commit('SET_PRODUCTS', products)
     commit('SET_PAGEINFO', pageInfo)
