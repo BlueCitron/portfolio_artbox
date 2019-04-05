@@ -114,7 +114,7 @@
               </div>
               <ul class="shoping__total">
                   <li class="subtotal">총 주문금액 :</li>
-                  <li class="total__price">{{ this.$store.getters.totalFee }} 원</li>
+                  <li class="total__price">{{ ThousandSeparator(this.$store.getters.totalProductFee) }} 원</li>
               </ul>
               <ul class="shopping__btn">
                   <!-- <li><router-link :to="{ name: 'Cart' }">장바구니 보기</router-link></li> -->
