@@ -1,7 +1,7 @@
 <template>
 <div>
   <!-- Start Bradcaump area -->
-  <div class="ht__bradcaump__area" v-if="$store.getters.isCartEmpty">
+  <div class="ht__bradcaump__area">
       <div class="ht__bradcaump__wrap">
           <div class="container">
               <div class="row">
