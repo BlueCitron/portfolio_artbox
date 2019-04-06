@@ -67,11 +67,11 @@
                                 <input
                                 v-model="regAddress"
                                 type="text"
-                                placeholder="Address* ex) 경기도 이천시 송정동 현진에버빌 102동 509호">
+                                placeholder="Address* ex) OO도 OO시 OO동 OO건물 OOO번지">
                                 <input
                                 v-model="regPhone"
                                 type="text"
-                                placeholder="Phone* ex) 010-7392-8550">
+                                placeholder="Phone* ex) 010-1234-5678">
                             </form>
                             <div class="htc__login__btn">
                                 <a href="#" @click="register()">register</a>

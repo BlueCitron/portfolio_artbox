@@ -22,7 +22,7 @@
                           </ul>
                       </nav>
 
-                      <div class="mobile-menu clearfix d-block d-lg-none">
+                      <!-- <div class="mobile-menu clearfix d-block d-lg-none">
                           <nav id="mobile_dropdown">
                               <ul>
                                 <li v-for="category in $store.state.category.categories" :key="category.id">
@@ -30,7 +30,7 @@
                                 </li>
                               </ul>
                           </nav>
-                      </div>
+                      </div> -->
                   </div>
                   <!-- End MAinmenu Ares -->
                   <div class="col-md-2 col-lg-2 col-6">
